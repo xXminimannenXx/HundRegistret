@@ -88,8 +88,8 @@ public class Dog {
         
     }
     public String getName(){
-        return name;
-    }
+    return name;
+}
     public String getBreed(){
 
         return breed;
