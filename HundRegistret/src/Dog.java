@@ -116,4 +116,14 @@ public class Dog {
             return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
         }
     }
+
+    public void updateAge(int i){
+        //i represemtrar den nya åldern
+        if(i > age){
+            age = i;
+        }
+        else{
+            System.out.print("Not a valid age, input denied");
+        }
+    }
 }
