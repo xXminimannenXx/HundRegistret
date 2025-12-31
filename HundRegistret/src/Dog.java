@@ -7,6 +7,7 @@ public class Dog {
     String breed;
     int age;
     int weight;
+    Owner owner;
     static final List<String> TAX_OLIKA_SPRÅK = List.of(
     "bassê",
     "bassotto",
@@ -87,6 +88,12 @@ public class Dog {
         this.weight = weight;
         
     }
+    public Dog(String name, String breed, int age, int weight, Owner owner){
+      new Dog(name,breed,age,weight);
+        
+        this.owner = owner;
+
+    }
     public String getName(){
     return name;
 }
@@ -116,6 +123,10 @@ public class Dog {
             return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
         }
     }
+    public Owner getOwner() {
+        return owner;
+    }
+
 
     public void updateAge(int i){
         //i represemtrar den nya åldern
