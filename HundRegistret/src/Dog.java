@@ -1,139 +1,160 @@
-
 import java.util.List;
+import java.util.Optional;
 
 public class Dog {
-    public static final double TAX_TAIL_LENGHT = 3.7;
-    String name;
-    String breed;
-    int age;
-    int weight;
-    Owner owner;
-    static final List<String> TAX_OLIKA_SPRÅK = List.of(
-    "bassê",
-    "bassotto",
-    "broc_chú",
-    "brochgi",
-    "broghki",
-    "cão-salsicha",
-    "coo brock",
-    "dachs",
-    "dachshound",
-    "dachshund",
-    "dachshunde",
-    "dackel",
-    "dafadog",
-    "dakel",
-    "dakhund",
-    "daks",
-    "dakshund",
-    "dakshunt",
-    "dakszli",
-    "dashhound",
-    "dashond",
-    "gravhund",
-    "gravhundur",
-    "grevlingshund",
-    "jamnik",
-    "jazbečar",
-    "jazvečík",
-    "jezevčík",
-    "jôpscownik",
-    "kolbasohundo",
-    "mäyräkoira",
-    "melhundo",
-    "ofi' falaa'",
-    "omnsrørhund",
-    "omnsrøyrhund",
-    "ovnsrørhund",
-    "perro salchicha",
-    "pølsehund",
-    "salsichinha",
-    "tacskó",
-    "taksas",
-    "taksis",
-    "tax",
-    "teckel",
-    "wiener_dog",
-    "ντάκσχουντ",
-    "да́кел",
-    "јазавичар",
-    "такса",
-    "та́кса",
-    "ტაქસા",
-    "דאַכסהונט טאַקסע",
-    "דקל",
-    "דָּקֶל",
-    "תחש",
-    "תַּחַשׁ",
-    "ഡാഷ്ഹണ്ട്",
-    "แด็กซันด์",
-    "닥스훈트",
-    "ダックスフント",
-    "腊肠犬",
-    "臘腸犬",
-    "达克斯猎犬",
-    "達克斯獵犬"
-);
+    private static final double TAX_TAIL_LENGHT = 3.7;
+    private static final List<String> TAX_OLIKA_SPRÅK = List.of(
+            "bassê",
+            "bassotto",
+            "broc_chú",
+            "brochgi",
+            "broghki",
+            "cão-salsicha",
+            "coo brock",
+            "dachs",
+            "dachshound",
+            "dachshund",
+            "dachshunde",
+            "dackel",
+            "dafadog",
+            "dakel",
+            "dakhund",
+            "daks",
+            "dakshund",
+            "dakshunt",
+            "dakszli",
+            "dashhound",
+            "dashond",
+            "gravhund",
+            "gravhundur",
+            "grevlingshund",
+            "jamnik",
+            "jazbečar",
+            "jazvečík",
+            "jezevčík",
+            "jôpscownik",
+            "kolbasohundo",
+            "mäyräkoira",
+            "melhundo",
+            "ofi' falaa'",
+            "omnsrørhund",
+            "omnsrøyrhund",
+            "ovnsrørhund",
+            "perro salchicha",
+            "pølsehund",
+            "salsichinha",
+            "tacskó",
+            "taksas",
+            "taksis",
+            "tax",
+            "teckel",
+            "wiener_dog",
+            "ντάκσχουντ",
+            "да́кел",
+            "јазавичар",
+            "такса",
+            "та́кса",
+            "ტაქસા",
+            "דאַכסהונט טאַקסע",
+            "דקל",
+            "דָּקֶל",
+            "תחש",
+            "תַּחַשׁ",
+            "ഡാഷ്ഹണ്ട്",
+            "แด็กซันด์",
+            "닥스훈트",
+            "ダックスフント",
+            "腊肠犬",
+            "臘腸犬",
+            "达克斯猎犬",
+            "達克斯獵犬");
+    private String name;
+    private String breed;
+    private int age;
+    private int weight;
+    private Owner owner;
 
-
-    public Dog(String name, String breed, int age, int weight){
-        //göra en tax check på olika språk sedan standarisera inputen
+    public Dog(String name, String breed, int age, int weight) {
+        // göra en tax check på olika språk sedan standarisera inputen
         breed = breed.trim();
         breed = breed.toLowerCase();
-        if(TAX_OLIKA_SPRÅK.contains(breed))breed = "Tax";
+        if (TAX_OLIKA_SPRÅK.contains(breed))
+            breed = "Tax";
         name = name.trim();
-        this.name = cap(name);
-        this.breed = cap(breed);
+        this.name = capName(name);
+        this.breed = capName(breed);
         this.age = age;
         this.weight = weight;
-        
+
     }
-    public Dog(String name, String breed, int age, int weight, Owner owner){
-      new Dog(name,breed,age,weight);
-        
+
+    public Dog(String name, String breed, int age, int weight, Owner owner) {
+        this(name, breed, age, weight);
+
         this.owner = owner;
 
     }
-    public String getName(){
-    return name;
-}
-    public String getBreed(){
 
-        return breed;
+    public Optional<String> getName() {
+        return Optional.ofNullable(name);
     }
-    public int getAge(){
+
+    public Optional<String> getBreed() {
+
+        return Optional.ofNullable(breed);
+    }
+
+    public int getAge() {
         return age;
     }
-    public int getWeight(){
-        return weight;
+
+    public Optional<Integer> getWeight() {
+        return Optional.ofNullable(weight);
     }
-    public double getTailLenght(){ 
-        
-        if(!"Tax".equals(breed))return (age*weight)/10; 
-        else return TAX_TAIL_LENGHT;
-        
+
+    public double getTailLenght() {
+
+        if (!"Tax".equals(breed))
+            return ((double) age * (double) weight) / 10;
+        else
+            return TAX_TAIL_LENGHT;
+
     }
+
     @Override
-    public String toString(){
-        return name + " " + breed + " " + age  + " " + weight + " " + getTailLenght();
+    public String toString() {
+        return name + " " + breed + " " + age + " " + weight + " " + getTailLenght();
     }
-    private String cap(String s){
-        if(s.isEmpty()) return s;
-        else{
-            return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
+
+    private String capName(String s) {
+        if (s.isEmpty())
+            return s;
+        else {
+            return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
         }
     }
-    public Owner getOwner() {
-        return owner;
+
+    public Optional<Owner> getOwner() {
+        return Optional.ofNullable(owner);
     }
 
+    public boolean setOwner(Owner o) {
+        if (owner != o) { // om de inte är samma ägare så updatereas den annars gör den inte de eftersom
+                          // de inte finns något att updatera och returenar fasle eftersom inget har
+                          // ändrasts
+            owner = o;
+            return true;
+        } else {
+            return false;
+        }
 
-    public void updateAge(int i){
-        //i represemtrar den nya åldern
-        if(i > age){
+    }
+
+    public void updateAge(int i) {
+        // i represemtrar den nya åldern
+        if (i > age) {
             age = i;
-        }
-        else{
+        } else {
             System.out.print("Not a valid age, input denied");
         }
     }
