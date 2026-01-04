@@ -2,8 +2,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Dog {
-    private static final double TAX_TAIL_LENGHT = 3.7;
-    private static final List<String> TAX_OLIKA_SPRÅK = List.of(
+    private static final double TAX_TAIL_LENGTH = 3.7;
+    private static final List<String>  DACHSHUND_ALIASES = List.of(
             "bassê",
             "bassotto",
             "broc_chú",
@@ -76,9 +76,22 @@ public class Dog {
 
     public Dog(String name, String breed, int age, int weight) {
         // göra en tax check på olika språk sedan standarisera inputen
+        if(breed.isBlank()){
+             throw new IllegalArgumentException("breed cant be null");
+        }
+        else if(name.isBlank()){
+            throw new IllegalArgumentException("name cant be null");
+        }
+       else if(age < 0){
+            throw new IllegalArgumentException("age cant be negative");
+       }
+        else if(weight < 0){
+            throw new IllegalArgumentException("weight cant be negative");
+        }
+         
         breed = breed.trim();
         breed = breed.toLowerCase();
-        if (TAX_OLIKA_SPRÅK.contains(breed))
+        if (DACHSHUND_ALIASES.contains(breed))
             breed = "Tax";
         name = name.trim();
         this.name = capName(name);
@@ -112,18 +125,18 @@ public class Dog {
         return Optional.ofNullable(weight);
     }
 
-    public double getTailLenght() {
+    public double getTailLength() {
 
         if (!"Tax".equals(breed))
             return ((double) age * (double) weight) / 10;
         else
-            return TAX_TAIL_LENGHT;
+            return TAX_TAIL_LENGTH;
 
     }
 
     @Override
     public String toString() {
-        return name + " " + breed + " " + age + " " + weight + " " + getTailLenght();
+        return name + " " + breed + " " + age + " " + weight + " " + getTailLength();
     }
 
     private String capName(String s) {
@@ -150,12 +163,12 @@ public class Dog {
 
     }
 
-    public void updateAge(int i) {
+    public void updateAge(int newAge) {
         // i represemtrar den nya åldern
-        if (i > age) {
-            age = i;
+        if (newAge > age) {
+            age = newAge;
         } else {
-            System.out.print("Not a valid age, input denied");
+            throw new RuntimeException("Not a valid age");
         }
     }
 }
