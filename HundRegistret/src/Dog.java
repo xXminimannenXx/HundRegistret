@@ -164,11 +164,11 @@ public class Dog {
     }
 
     public void updateAge(int newAge) {
-        // i represemtrar den nya åldern
+        
         if (newAge > age) {
             age = newAge;
         } else {
-            throw new RuntimeException("Not a valid age");
+            throw new RuntimeException("Not a valid age"); 
         }
     }
 }
