@@ -15,13 +15,13 @@ public class Owner {
         if (dogs.length > 7) {
             throw new IllegalArgumentException("Cant have more than 7 dogs"); // kollar så att inte de är mer än 7
                                                                               // hundar i skapningen av ägar klassen
-        } else {
-            for (int i = 0; i < dogs.length; i++) {
-                if (currentDogs[i].equals(dogs[i])) {
-                    System.out.print("Cant have duplicant dogs");
-                } else {
-                    currentDogs[i] = dogs[i];
+        }
+        for (int i = 0; i < dogs.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (currentDogs[j].equals(dogs[i])) {
+                    throw new IllegalArgumentException("Cant have duplicant dogs");
                 }
+                currentDogs[i] = dogs[i];
             }
         }
     }
@@ -37,6 +37,19 @@ public class Owner {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Dog)) {
+            return false;
+        }
+        Dog other = (Dog) obj;
+        return name.equals(other.getName());
+
     }
 
 }

@@ -108,21 +108,21 @@ public class Dog {
 
     }
 
-    public Optional<String> getName() {
-        return Optional.ofNullable(name);
+    public String getName() {
+        return name;
     }
 
-    public Optional<String> getBreed() {
+    public String getBreed() {
 
-        return Optional.ofNullable(breed);
+        return breed;
     }
 
     public int getAge() {
         return age;
     }
 
-    public Optional<Integer> getWeight() {
-        return Optional.ofNullable(weight);
+    public Integer getWeight() {
+        return weight;
     }
 
     public double getTailLength() {
