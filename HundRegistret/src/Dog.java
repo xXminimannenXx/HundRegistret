@@ -3,7 +3,7 @@ import java.util.Optional;
 
 public class Dog {
     private static final double TAX_TAIL_LENGTH = 3.7;
-    private static final List<String>  DACHSHUND_ALIASES = List.of(
+    private static final List<String> DACHSHUND_ALIASES = List.of(
             "bassê",
             "bassotto",
             "broc_chú",
@@ -76,19 +76,19 @@ public class Dog {
 
     public Dog(String name, String breed, int age, int weight) {
         // göra en tax check på olika språk sedan standarisera inputen
-        if(breed == null || breed.isBlank()){
-             throw new IllegalArgumentException("breed cant be null");
+        if (breed == null || breed.isBlank()) {
+            throw new IllegalArgumentException("breed cant be null");
         }
-       if(name == null || name.isBlank()){
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("name cant be null");
         }
-       if(age < 0){
+        if (age < 0) {
             throw new IllegalArgumentException("age cant be negative");
-       }
-        if(weight < 0){
+        }
+        if (weight < 0) {
             throw new IllegalArgumentException("weight cant be negative");
         }
-         
+
         breed = breed.trim();
         breed = breed.toLowerCase();
         if (DACHSHUND_ALIASES.contains(breed))
@@ -164,11 +164,11 @@ public class Dog {
     }
 
     public void updateAge(int newAge) {
-        
+
         if (newAge > age) {
             age = newAge;
         } else {
-            throw new RuntimeException("Not a valid age"); 
+            throw new RuntimeException("Not a valid age");
         }
     }
 }
