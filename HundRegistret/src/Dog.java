@@ -76,16 +76,16 @@ public class Dog {
 
     public Dog(String name, String breed, int age, int weight) {
         // göra en tax check på olika språk sedan standarisera inputen
-        if(breed.isBlank()){
+        if(breed == null || breed.isBlank()){
              throw new IllegalArgumentException("breed cant be null");
         }
-        else if(name.isBlank()){
+       if(name == null || name.isBlank()){
             throw new IllegalArgumentException("name cant be null");
         }
-       else if(age < 0){
+       if(age < 0){
             throw new IllegalArgumentException("age cant be negative");
        }
-        else if(weight < 0){
+        if(weight < 0){
             throw new IllegalArgumentException("weight cant be negative");
         }
          
