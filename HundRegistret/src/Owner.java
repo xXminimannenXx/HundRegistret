@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Optional;
 
 public class Owner {
@@ -24,14 +25,39 @@ public class Owner {
                 currentDogs[i] = dogs[i];
             }
         }
+
     }
 
     public Optional<Dog[]> getDogs() {
-        return Optional.ofNullable(currentDogs);
+        if (currentDogs == null) {
+            return Optional.empty();
+        }
+        Dog[] tempArray = Arrays.copyOf(currentDogs, currentDogs.length);
+
+        return Optional.of(tempArray);
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean addDog(Dog dog) {
+        if(dog == null){
+            return false;
+        }
+        for (int i = 0; i < currentDogs.length; i++) {
+            if (currentDogs[i] != null && currentDogs[i].equals(dog)) {
+                return false;
+            }
+        }
+        for (int i = 0; i < currentDogs.length; i++) {
+            if (currentDogs[i] == null) {
+                currentDogs[i] = dog;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
