@@ -163,12 +163,14 @@ public class Dog {
 
     }
 
-    public void updateAge(int newAge) {
-
-        if (newAge > age) {
-            age = newAge;
-        } else {
-            throw new RuntimeException("Not a valid age");
+    public void updateAge(int increment) {
+        if (increment <= 0)
+            return;
+        if (increment == Integer.MAX_VALUE ||((long)age+(long)increment) >= Integer.MAX_VALUE) {
+            age = Integer.MAX_VALUE;
+            return;
         }
+        age += increment;
+
     }
 }
