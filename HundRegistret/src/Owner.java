@@ -42,7 +42,7 @@ public class Owner {
     }
 
     public boolean addDog(Dog dog) {
-        if(dog == null){
+        if (dog == null) {
             return false;
         }
         for (int i = 0; i < currentDogs.length; i++) {
@@ -57,6 +57,32 @@ public class Owner {
             }
         }
 
+        return false;
+    }
+
+    public boolean removeDog(String dogName) {
+        if (dogName == null) {
+            return false;
+        }
+        for (int i = 0; i < currentDogs.length; i++) {
+            if (currentDogs[i] != null || currentDogs[i].getName().equals(dogName)) {
+                currentDogs[i] = null;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeDog(Dog dog) {
+        if (dog == null) {
+            return false;
+        }
+        for (int i = 0; i < currentDogs.length; i++) {
+            if (currentDogs[i] != null || currentDogs[i].equals(dog)) {
+                currentDogs[i] = null;
+                return true;
+            }
+        }
         return false;
     }
 
