@@ -166,7 +166,9 @@ public class Dog {
     public void updateAge(int increment) {
         if (increment <= 0)
             return;
-        if (increment == Integer.MAX_VALUE ||((long)age+(long)increment) >= Integer.MAX_VALUE) {
+        if (increment == Integer.MAX_VALUE || ((long) age + (long) increment) >= Integer.MAX_VALUE) { // tror hunden är
+                                                                                                      // död om den är
+                                                                                                      // såhär gammal
             age = Integer.MAX_VALUE;
             return;
         }
