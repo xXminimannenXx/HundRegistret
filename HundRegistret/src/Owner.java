@@ -1,51 +1,131 @@
-import java.util.Arrays;
-
 
 public class Owner {
     private String name;
     private Dog[] currentDogs = new Dog[7];
 
-    public Owner(String name, Dog... dogs) {
-        if (name == null) {
+    public Owner(String name) {
+        if (name == null)
             throw new IllegalArgumentException("Name cant be null");
-        }
         name = name.trim();
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+    }
 
-        if (dogs.length > 7) {
-            throw new IllegalArgumentException("Cant have more than 7 dogs"); // kollar så att inte de är mer än 7
-                                                                              // hundar i skapningen av ägar klassen
-        }
-        for(int i = 0; i <dogs.length; i++){
-            if(dogs[i] == null){
+    public Owner(String name, Dog... dogs) {
+        // gammal kod kvar från tidigare försök av lösningar
+        this(name);
+
+        /*
+         * if (dogs.length > 7) {
+         * 
+         * throw new IllegalArgumentException("Cant have more than 7 dogs"); // kollar
+         * så att inte de är mer än 7
+         * // hundar i skapningen av ägar klassen
+         * }
+         */
+
+        for (int i = 0; i < dogs.length; i++) {
+            if (dogs[i] == null) {
                 throw new IllegalArgumentException("Dog cant be null");
             }
         }
-        for (int i = 0; i < dogs.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (currentDogs[j] != null &&currentDogs[j].equals(dogs[i])) {
-                    throw new IllegalArgumentException("Cant have duplicant dogs");
+        for (Dog dog : dogs) {
+            boolean isDuplicant = false;
+            for (Dog curDog : currentDogs) {
+                if (curDog != null && curDog.getName().equals(dog.getName())) {
+                    isDuplicant = true;
+                    break;
                 }
-                currentDogs[i] = dogs[i];
+                if (!isDuplicant) {
+                    boolean addedDog = false;
+                    for (int i = 0; i < currentDogs.length; i++) {
+                        if (currentDogs[i] == null) {
+                            addDog(dog);
+                            addedDog = true;
+                            break;
+                        }
+                    }
+                    if (!addedDog)
+                        break;
+                }
             }
         }
+        /*
+         * for (int i = 0; i < dogs.length; i++) {
+         * for (int j = 0; j < i; j++) {
+         * if(currentDogs[j] != null){
+         * if (currentDogs[j].equals(dogs[i])) {
+         * throw new IllegalArgumentException("Cant have duplicant dogs");
+         * }
+         * }
+         * currentDogs[i] = dogs[i];
+         * }
+         * }
+         */
+        /*
+         * for(int i = 0; i < dogs.length; i++){
+         * Owner tempOwner = dogs[i].getOwner().orElse(null);
+         * if ( tempOwner != null && tempOwner.equals(this)) {
+         * throw new IllegalArgumentException("Cant have duplicant dogs");
+         * }
+         * }
+         */
+        /*
+         * for(int i = 0; i < dogs.length; i++){
+         * dogs[i].getName().equals(getDogs().toString());
+         * }
+         */
+
+        /*
+         * for (int i = 0; i < dogs.length; i++) {
+         * for (int j = 0; j < i; j++) {
+         * if (!dogs[i].getName().equals(dogs[j].getName())) {
+         * 
+         * 
+         * 
+         * }
+         * }
+         * 
+         * addDog(dogs[i]);
+         * }
+         */
 
     }
 
-   
-    public Dog[] getDogs(){
-        int newLen = 0; //samma som under fast de va hund, hund, hund, null , null... 
-        Dog[] tempDogArray = new Dog[0]; //fick fel på testet eftersom att den returnerar null,null,null... istället för att vara tom så gjorde detta
-        if(!ownsAnyDog()){
-            return tempDogArray;
-        }
-        for(int i = 0; i < currentDogs.length; i++){
-            if (currentDogs[i] != null) {
-                newLen++;        
+    public Dog[] getDogs() {
+        // gammal lösning som inte var helt bra
+        /*
+         * int newLen = 0; // samma som under fast de va hund, hund, hund, null ,
+         * null...
+         * Dog[] tempDogArray = new Dog[0]; // fick fel på testet eftersom att den
+         * returnerar null,null,null... istället
+         * // för att vara tom så gjorde detta
+         * if (!ownsAnyDog()) {
+         * return tempDogArray;
+         * }
+         * for (int i = 0; i < currentDogs.length; i++) {
+         * if (currentDogs[i] != null) {
+         * newLen++;
+         * tempDogArray[newLen] = currentDogs[i];
+         * }
+         * }
+         * return Arrays.copyOf(currentDogs, newLen);
+         */
+        int newLen = 0; // hittar nya längden på arrayen
+        for (Dog dog : currentDogs) {
+            if (dog != null) {
+                newLen++;
             }
         }
-       return Arrays.copyOf(currentDogs,newLen );
-        
+        int index = 0;
+        Dog[] tempDogArray = new Dog[newLen]; // gör en ny array med rätt längd
+        for (Dog dog : currentDogs) { // lägger in varje hund på ny plats
+
+            if (dog != null) {
+                tempDogArray[index] = dog;
+                index++;
+            }
+        }
+        return tempDogArray;
     }
 
     public String getName() {
@@ -58,31 +138,18 @@ public class Owner {
         }
         for (int i = 0; i < currentDogs.length; i++) { // kolla att den inte är dubblet
             if (currentDogs[i] != null && currentDogs[i].getName().equals(dog.getName())) {
-                 
+
                 return false;
             }
         }
         for (int i = 0; i < currentDogs.length; i++) {// hitta första tomma plats och lägg in hunden där
             if (currentDogs[i] == null) {
                 currentDogs[i] = dog;
-                
+
                 return true;
             }
         }
 
-        return false;
-    }
-
-    public boolean removeDog(String dogName) {
-        if (dogName == null) {
-            return false;
-        }
-        for (int i = 0; i < currentDogs.length; i++) { // kolla om hunden finns i arrayen och då ta bort
-            if (currentDogs[i] != null || currentDogs[i].getName().equals(dogName)) {
-                currentDogs[i] = null;
-                return true;
-            }
-        }
         return false;
     }
 
@@ -105,12 +172,25 @@ public class Owner {
         return true;
     }
 
+    public boolean removeDog(String dogName) {
+        if (dogName == null) {
+            return false;
+        }
+        for (int i = 0; i < currentDogs.length; i++) { // kolla om hunden finns i arrayen och då ta bort
+            if (currentDogs[i] != null && currentDogs[i].getName().equalsIgnoreCase(dogName)) {
+                currentDogs[i] = null;
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean removeDog(Dog dog) {
         if (dog == null) {
             return false;
         }
         for (int i = 0; i < currentDogs.length; i++) {
-            if (currentDogs[i] != null || currentDogs[i].equals(dog)) {
+            if (currentDogs[i] != null && currentDogs[i].equals(dog)) {
                 currentDogs[i] = null;
                 return true;
             }
@@ -123,7 +203,7 @@ public class Owner {
             return false;
         }
         for (int i = 0; i < currentDogs.length; i++) {
-            if (currentDogs[i] != null && currentDogs[i].getName().equals(dogName)) {
+            if (currentDogs[i] != null && currentDogs[i].getName().equalsIgnoreCase(dogName)) {
                 return true;
             }
         }
@@ -136,7 +216,7 @@ public class Owner {
             return false;
         }
         for (int i = 0; i < currentDogs.length; i++) {
-            if ( currentDogs[i] != null && currentDogs[i].equals(dog)) {
+            if (currentDogs[i] != null && currentDogs[i].equals(dog)) {
                 return true;
             }
         }
@@ -146,19 +226,6 @@ public class Owner {
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Dog)) {
-            return false;
-        }
-        Dog other = (Dog) obj;
-        return name.equals(other.getName());
-
     }
 
 }
