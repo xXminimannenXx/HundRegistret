@@ -136,6 +136,9 @@ public class Dog {
 
     @Override
     public String toString() {
+        if (owner != null) {
+            return name + " " + breed + " " + age + " " + weight + " " + getTailLength() + owner;
+        }
         return name + " " + breed + " " + age + " " + weight + " " + getTailLength();
     }
 

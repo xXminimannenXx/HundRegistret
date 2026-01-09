@@ -225,7 +225,16 @@ public class Owner {
 
     @Override
     public String toString() {
-        return name;
+        String dogNamesTemp = "";
+
+        for (Dog d : currentDogs) {
+            if (d != null) {
+                dogNamesTemp += d.toString() + " ";
+
+            }
+        }
+
+        return name + " " + dogNamesTemp;
     }
 
 }
