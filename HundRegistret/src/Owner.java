@@ -1,4 +1,4 @@
-
+//TODO: metod som kollar ägare för hund samt om ägaren äger en hund vid de namnet om de inte matchar ska nuvarande hundens ägare(i hunden) tas bort och ägaren som kollar bli nya ägare
 public class Owner {
     private String name;
     private Dog[] currentDogs = new Dog[7];
