@@ -3,6 +3,7 @@
 import java.util.Comparator;
 
 public class Owner {
+
     private String name;
     private Dog[] currentDogs = new Dog[7];
 
@@ -140,7 +141,12 @@ public class Owner {
     }
 
     public boolean addDog(Dog dog) {
+
         if (dog == null) {
+            return false;
+        }
+        Owner oldOwner = dog.getOwner();
+        if (oldOwner == this && this.ownsDog(dog)) {
             return false;
         }
         for (int i = 0; i < currentDogs.length; i++) { // kolla att den inte är dubblet
@@ -151,8 +157,20 @@ public class Owner {
         }
         for (int i = 0; i < currentDogs.length; i++) {// hitta första tomma plats och lägg in hunden där
             if (currentDogs[i] == null) {
-                currentDogs[i] = dog;
 
+                if (oldOwner != this) {
+                    if (oldOwner != null) {
+                        if (!oldOwner.removeDog(dog)) {
+                            return false;
+                        }
+                    }
+
+                    if (!dog.setOwner(this)) {
+                        return false;
+                    }
+
+                }
+                currentDogs[i] = dog;
                 return true;
             }
         }

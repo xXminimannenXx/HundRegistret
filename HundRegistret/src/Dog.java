@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Optional;
 
 public class Dog {
     private static final double TAX_TAIL_LENGTH = 3.7;
@@ -137,7 +136,7 @@ public class Dog {
     @Override
     public String toString() {
         if (owner != null) {
-            return name + " " + breed + " " + age + " " + weight + " " + getTailLength() + owner;
+            return name + " " + breed + " " + age + " " + weight + " " + getTailLength() + owner.getName();
         }
         return name + " " + breed + " " + age + " " + weight + " " + getTailLength();
     }
@@ -150,14 +149,29 @@ public class Dog {
         }
     }
 
-    public Optional<Owner> getOwner() {
-        return Optional.ofNullable(owner);
+    /*
+     * fick problem av denna eftrsom jag fick en optional<owner> istället för en
+     * owner och när jag sökte runt hur man kan lösa de så stötte jag på andra
+     * lösningar där en av dem var att använda den singelton så de är vad jag väljer
+     * att använda istället
+     * Men när jag försökte använda de så klarade jag inte junit testerna så jag
+     * läste om kraven för getOwner och har typ valt att bara kolla om de är null
+     * istället på ställena de används för att jag inte helt förstår mig på optional
+     * public Optional<Owner> getOwner() {
+     * return Optional.ofNullable(owner);
+     * }
+     */
+    public Owner getOwner() {
+
+        return owner;
     }
 
     public boolean setOwner(Owner o) {
-        if (owner != o) { // om de inte är samma ägare så updatereas den annars gör den inte de eftersom
-                          // de inte finns något att updatera och returenar fasle eftersom inget har
-                          // ändrasts
+        if (owner != o && o.addDog(this)) {
+            // om de inte är samma ägare så updatereas den annars gör den inte de
+            // eftersom
+            // de inte finns något att updatera och returenar fasle eftersom inget har
+            // ändrasts
             owner = o;
             return true;
         } else {
