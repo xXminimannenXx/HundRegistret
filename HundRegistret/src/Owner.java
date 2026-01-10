@@ -53,8 +53,7 @@ public class Owner {
             }
 
         }
-       
-        
+
         /*
          * for (int i = 0; i < dogs.length; i++) {
          * for (int j = 0; j < i; j++) {
@@ -98,7 +97,7 @@ public class Owner {
     }
 
     public Dog[] getDogs() {
-        
+
         // gammal lösning som inte var helt bra
         /*
          * int newLen = 0; // samma som under fast de va hund, hund, hund, null ,
@@ -153,7 +152,7 @@ public class Owner {
         for (int i = 0; i < currentDogs.length; i++) {// hitta första tomma plats och lägg in hunden där
             if (currentDogs[i] == null) {
                 currentDogs[i] = dog;
-              
+
                 return true;
             }
         }
@@ -244,13 +243,12 @@ public class Owner {
 
         return name + " " + dogNamesTemp;
     }
-   private void sortDogs(Dog[] dogs) {
-    DogSorter.sort(
-        SortingAlgorithm.SELECTION_SORT,
-        Comparator.comparing(Dog::getName),
-        dogs
-    );
-}
+
+    private void sortDogs(Dog[] dogs) {
+        DogSorter.sort(
+                SortingAlgorithm.SELECTION_SORT,
+                Comparator.comparing(Dog::getName),
+                dogs);
+    }
 
 }
-
