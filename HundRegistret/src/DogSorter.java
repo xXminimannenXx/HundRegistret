@@ -31,7 +31,7 @@ public class DogSorter {
 
         } while (changed);
     }
-    public static void selectionSort(Comparator<Dog> comparator, Dog[] dogs){
+    private static void selectionSort(Comparator<Dog> comparator, Dog[] dogs){
       
        
         

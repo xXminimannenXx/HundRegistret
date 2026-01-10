@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.*;
 
 /**
  * @author Henrik Bergström
- * @version 0.9
+ * @version 0.9.1
  * @apiNote Testen i denna klass fungerar, men testar väldigt begränsade
  *          scenarier. De kommer att utökas när vi sett fler implementationer av
  *          de olika algoritmerna. Detta betyder att de troligen också kommer
@@ -132,7 +132,7 @@ public class DR06DogSorterTest extends DR01Assertions {
 	}
 
 	@Order(40)
-	@ParameterizedTest(name="{0} försök {1}")
+	@ParameterizedTest(name = "{0} försök {1}")
 	@MethodSource("multipleIterationsOfAlgorithms")
 	@DisplayName("Fler hundar i slumpmässig ordning sorteras på namn")
 	public void moreDogsInRandomOrder(SortingAlgorithm algorithm, int iteration) {
@@ -181,6 +181,20 @@ public class DR06DogSorterTest extends DR01Assertions {
 	@DisplayName("Minst två sorteringsalgoritmer")
 	public void atLeastTwoSortingAlgorithms() {
 		assertThat(SortingAlgorithm.values().length).isGreaterThan(1).onErrorReport("För få sorteringsalgoritmer");
+	}
+
+	@Order(60)
+	@Test
+	@DisplayName("Ägarens hundar sorteras")
+	public void ownersDogAreSorted() {
+		Dog buster = new Dog("Buster", "Chihuahua", 7, 9);
+		Dog charlie = new Dog("Charlie", "Border collie", 8, 2);
+		Dog daisy = new Dog("Daisy", "Staffordshire bullterrier", 6, 3);
+
+		Owner owner = new Owner("Olle", daisy, buster, charlie);
+
+		assertThat(owner.getDogs()).contains(buster, charlie, daisy).inThatOrder()
+				.onErrorReport("Ägarens hundar är inte sorterade");
 	}
 
 //	/*
@@ -251,7 +265,7 @@ public class DR06DogSorterTest extends DR01Assertions {
 //
 //	}
 //
-//	@Order(60)
+//	@Order(70)
 //	@ParameterizedTest(name = "{0} kan sortera en {4} med mellan {1} och {2} jämförelser")
 //	@DisplayName("Stödda sorteringsalgoritmer gör ett rimligt antal jämförelser")
 //	@MethodSource("sortingImplementationScenarios")
