@@ -166,18 +166,75 @@ public class Dog {
         return owner;
     }
 
-    public boolean setOwner(Owner o) {
-        if (owner != o && o.addDog(this)) {
-            // om de inte är samma ägare så updatereas den annars gör den inte de
-            // eftersom
-            // de inte finns något att updatera och returenar fasle eftersom inget har
-            // ändrasts
-            owner = o;
-            return true;
-        } else {
+    // första setOwner
+    /*
+     * public boolean setOwner(Owner o) {
+     * 
+     * if (owner != o) {
+     * // om de inte är samma ägare så updatereas den annars gör den inte de
+     * // eftersom
+     * // de inte finns något att updatera och returenar fasle eftersom inget har
+     * // ändrasts
+     * 
+     * owner = o;
+     * return true;
+     * } else {
+     * return false;
+     * }
+     * 
+     * }
+     */
+    /*
+     * public boolean setOwner(Owner o){
+     * if(o == null){
+     * if(owner != null){
+     * owner.removeDog(this);
+     * owner = o;
+     * return true;
+     * }
+     * }
+     * if(!o.ownsMaxDogs()){
+     * if(owner == null){
+     * owner = o;
+     * owner.addDog(this);
+     * return true;
+     * }
+     * if(owner != null){
+     * if(owner == o){
+     * if(o.ownsDog(this)){
+     * o.addDog(this);
+     * return true;
+     * }
+     * }
+     * if(owner != o){
+     * owner.removeDog(this);
+     * owner = o;
+     * o.addDog(this);
+     * }
+     * }
+     * }
+     * return false;
+     * }
+     */
+    public boolean setOwner(Owner newOwner) {
+        if (owner == newOwner) { // ingen förändring
             return false;
         }
 
+        // Ta bort från gammal ägare
+        if (owner != null) {
+            Owner oldOwner = owner;
+            owner = null;
+            oldOwner.removeDog(this);
+        }
+
+        // Lägg till hos ny ägare om det inte är null
+        if (newOwner != null && !newOwner.ownsMaxDogs()) {
+            owner = newOwner;
+            newOwner.addDog(this); 
+        }
+
+        return true;
     }
 
     public void updateAge(int increment) {

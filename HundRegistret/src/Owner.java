@@ -140,42 +140,103 @@ public class Owner {
         return name;
     }
 
+    /*
+     * public boolean addDog(Dog dog) {
+     * 
+     * if (dog == null) {
+     * return false;
+     * }
+     * Owner oldOwner = dog.getOwner();
+     * if (oldOwner == this && this.ownsDog(dog)) { // hunden är rätt redan
+     * return false;
+     * }
+     * if (!dog.setOwner(this)) {
+     * return false;
+     * }
+     * if (oldOwner != null) {
+     * if (!oldOwner.removeDog(dog)) {
+     * return false;
+     * }
+     * }
+     * for (int i = 0; i < currentDogs.length; i++) { // kolla att den inte är
+     * dubblet
+     * if (currentDogs[i] != null && currentDogs[i].getName().equals(dog.getName()))
+     * {
+     * 
+     * return false;
+     * }
+     * }
+     * for (int i = 0; i < currentDogs.length; i++) {// hitta första tomma plats och
+     * lägg in hunden där
+     * 
+     * if (currentDogs[i] == null && !dog.setOwner(this)) {
+     * 
+     * currentDogs[i] = dog;
+     * 
+     * return true;
+     * }
+     * }
+     * 
+     * return false;
+     * }
+     */
+    /*
+     * public boolean addDog(Dog dog) {
+     * if (dog == null) {
+     * return false;
+     * }
+     * if (!hasSpace()) {
+     * return false;
+     * }
+     * for (int i = 0; i < currentDogs.length; i++) { // kolla att den inte är
+     * dubblet
+     * if (currentDogs[i] != null && currentDogs[i].getName().equals(dog.getName()))
+     * {
+     * 
+     * return false;
+     * }
+     * }
+     * if (dog.getOwner() != this) {
+     * dog.setOwner(this);
+     * return true;
+     * } else if (dog.getOwner() == this) {
+     * for (int i = 0; i < currentDogs.length; i++) {// hitta första tomma plats och
+     * lägg in hunden där
+     * 
+     * if (currentDogs[i] == null) {
+     * 
+     * currentDogs[i] = dog;
+     * 
+     * return true;
+     * }
+     * 
+     * }
+     * }
+     * return false;
+     * }
+     */
     public boolean addDog(Dog dog) {
-
-        if (dog == null) {
-            return false;
-        }
-        Owner oldOwner = dog.getOwner();
-        if (oldOwner == this && this.ownsDog(dog)) {
+        if (dog == null || ownsMaxDogs() || ownsDog(dog)) {
             return false;
         }
         for (int i = 0; i < currentDogs.length; i++) { // kolla att den inte är dubblet
+
             if (currentDogs[i] != null && currentDogs[i].getName().equals(dog.getName())) {
 
                 return false;
             }
         }
-        for (int i = 0; i < currentDogs.length; i++) {// hitta första tomma plats och lägg in hunden där
+        // Lägg till hunden på första lediga plats
+        for (int i = 0; i < currentDogs.length; i++) {
             if (currentDogs[i] == null) {
-
-                if (oldOwner != this) {
-                    if (oldOwner != null) {
-                        if (!oldOwner.removeDog(dog)) {
-                            return false;
-                        }
-                    }
-
-                    if (!dog.setOwner(this)) {
-                        return false;
-                    }
-
-                }
                 currentDogs[i] = dog;
+                if (dog.getOwner() != this) {
+                    dog.setOwner(this); // updaterar owner fältet i Dog
+                }
                 return true;
             }
         }
-
-        return false;
+        return false; // ska inte hända, men safety
     }
 
     public boolean ownsAnyDog() {
@@ -197,26 +258,64 @@ public class Owner {
         return true;
     }
 
-    public boolean removeDog(String dogName) {
-        if (dogName == null) {
+    /*
+     * public boolean removeDog(String dogName) {
+     * if (dogName == null) {
+     * return false;
+     * }
+     * for (int i = 0; i < currentDogs.length; i++) { // kolla om hunden finns i
+     * arrayen och då ta bort
+     * if (currentDogs[i] != null &&
+     * currentDogs[i].getName().equalsIgnoreCase(dogName)) {
+     * currentDogs[i].setOwner(null);
+     * currentDogs[i] = null;
+     * return true;
+     * }
+     * }
+     * return false;
+     * }
+     * 
+     * public boolean removeDog(Dog dog) {
+     * if (dog == null) {
+     * return false;
+     * }
+     * for (int i = 0; i < currentDogs.length; i++) {
+     * if (currentDogs[i] != null && currentDogs[i].equals(dog)) {
+     * currentDogs[i].setOwner(null);
+     * currentDogs[i] = null;
+     * return true;
+     * }
+     * }
+     * return false;
+     * }
+     */
+    public boolean removeDog(Dog dog) {
+        if (dog == null)
             return false;
-        }
-        for (int i = 0; i < currentDogs.length; i++) { // kolla om hunden finns i arrayen och då ta bort
-            if (currentDogs[i] != null && currentDogs[i].getName().equalsIgnoreCase(dogName)) {
+
+        for (int i = 0; i < currentDogs.length; i++) {
+            if (currentDogs[i] != null && currentDogs[i].equals(dog)) {
                 currentDogs[i] = null;
+                if (dog.getOwner() == this) {
+                    dog.setOwner(null); // nollställ ägare i hunden
+                }
                 return true;
             }
         }
         return false;
     }
 
-    public boolean removeDog(Dog dog) {
-        if (dog == null) {
+    public boolean removeDog(String dogName) {
+        if (dogName == null)
             return false;
-        }
+
         for (int i = 0; i < currentDogs.length; i++) {
-            if (currentDogs[i] != null && currentDogs[i].equals(dog)) {
+            if (currentDogs[i] != null && currentDogs[i].getName().equalsIgnoreCase(dogName)) {
+                Dog temp = currentDogs[i];
                 currentDogs[i] = null;
+                if (temp.getOwner() == this) {
+                    temp.setOwner(null); // nollställ ägare i hunden
+                }
                 return true;
             }
         }
@@ -269,4 +368,13 @@ public class Owner {
                 dogs);
     }
 
+    private boolean hasSpace() {
+        for (int i = 0; i < currentDogs.length; i++) {
+            if (currentDogs[i] == null) {
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
