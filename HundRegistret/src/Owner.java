@@ -230,12 +230,12 @@ public class Owner {
             if (currentDogs[i] == null) {
                 currentDogs[i] = dog;
                 if (dog.getOwner() != this) {
-                    dog.setOwner(this); // updaterar owner fältet i Dog
+                    dog.setOwner(this);
                 }
                 return true;
             }
         }
-        return false; // ska inte hända, men safety
+        return false; 
     }
 
     public boolean ownsAnyDog() {
