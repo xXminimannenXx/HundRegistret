@@ -366,14 +366,16 @@ public class Owner {
                 Comparator.comparing(Dog::getName),
                 dogs);
     }
-    //användes vid tidigare lösnings försök
-    /*private boolean hasSpace() {
-        for (int i = 0; i < currentDogs.length; i++) {
-            if (currentDogs[i] == null) {
-                return true;
-            }
-
-        }
-        return false;
-    }*/
+    // användes vid tidigare lösnings försök
+    /*
+     * private boolean hasSpace() {
+     * for (int i = 0; i < currentDogs.length; i++) {
+     * if (currentDogs[i] == null) {
+     * return true;
+     * }
+     * 
+     * }
+     * return false;
+     * }
+     */
 }
