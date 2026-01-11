@@ -1,8 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Order;
 
 public class OwnerCollection {
     ArrayList<Owner> currentOwners = new ArrayList<Owner>();
@@ -18,7 +14,7 @@ public class OwnerCollection {
     }
 
     public boolean removeOwner(Owner owner) {
-        if (owner != null && containsOwner(owner) &&removeOwner(owner.getName())) {
+        if (owner != null && containsOwner(owner) && removeOwner(owner.getName())) {
             return true;
 
         }
