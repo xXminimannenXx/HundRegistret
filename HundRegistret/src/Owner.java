@@ -1,4 +1,3 @@
-//TODO: metod som kollar ägare för hund samt om ägaren äger en hund vid de namnet om de inte matchar ska nuvarande hundens ägare(i hunden) tas bort och ägaren som kollar bli nya ägare
 
 import java.util.Comparator;
 
@@ -368,13 +367,5 @@ public class Owner {
                 dogs);
     }
 
-    private boolean hasSpace() {
-        for (int i = 0; i < currentDogs.length; i++) {
-            if (currentDogs[i] == null) {
-                return true;
-            }
-
-        }
-        return false;
-    }
+   
 }
