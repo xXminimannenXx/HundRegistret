@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class OwnerCollection {
     ArrayList<Owner> currentOwners = new ArrayList<Owner>();
@@ -64,8 +65,11 @@ public class OwnerCollection {
     }
 
     public ArrayList<Owner> getAllOwners() {
+        
+        currentOwners.sort(Comparator.comparing(Owner::getName));
         ArrayList<Owner> tempArray = new ArrayList<Owner>();
         tempArray.addAll(currentOwners);
+        
         return tempArray;
     }
 
