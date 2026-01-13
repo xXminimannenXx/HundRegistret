@@ -25,7 +25,7 @@ public class OwnerCollection {
         if (ownerName != null && containsOwner(ownerName)) {
             for (Owner o : currentOwners) {
                 if (o.getName().equalsIgnoreCase(ownerName)) {
-                    currentOwners.set(currentOwners.indexOf(o), null);
+                    currentOwners.remove(o);
                     return true;
                 }
             }
