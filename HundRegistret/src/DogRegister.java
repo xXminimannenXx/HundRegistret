@@ -58,6 +58,7 @@ public class DogRegister {
     }
 
     private static void chooseCommand(String uInput) {
+        playInteracSound();
         switch (uInput) {
             case "1":
             case "ao":
@@ -174,9 +175,14 @@ public class DogRegister {
       
        
     }
+    private static void playInteracSound(){
+        playSound("src/sound6.wav");
+        waitFor(500);
+    }
 
     private static void playSound(String fileName) {
         File file = new File(fileName); // vilken fil som ska spelas/skapar ett fil objekt
+        if(file.exists()){ //kollar att filen faktiskt finns så man inte exploderar och craschar
         try {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typ läser in ljudet så java kan
                                                                                  // spela det förstod jag de som
@@ -185,6 +191,7 @@ public class DogRegister {
             clip.start(); // spela ljudet
         } catch (Exception e) {
 
+        }
         }
     }
 
