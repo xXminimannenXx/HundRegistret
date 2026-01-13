@@ -6,13 +6,41 @@ import javax.sound.sampled.Clip;
 
 public class DogRegister {
 
-    private static boolean running = true;
+    private boolean running = true;
+
+    Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        // skriva ut välkomst meddelande + lite ljud
-        onStart();
+      new DogRegister().startProgram();
+
+     
+
+        
+    }
+
+    private void onExit() {
+        System.out.print("exiting...");
+        playExitSound();
+        scanner.close();
+    }
+
+    private void startProgram() {
+        onStart(); // skriva ut välkomst meddelande + lite ljud
+        runCommandLoop();
+        onExit(); // stänger ner allt + lite ljud
+    }
+
+    private void onStart() {
+
+        System.out.print("-------------------------\n");
+        System.out.print("|< Antons Dog Register >|\n");
+        System.out.print("-------------------------\n");
+        playWelcomeSound();
+
+    }
+
+    private void runCommandLoop() {
         do {
             clearScreen();
             // skriva ut input grejer
@@ -24,23 +52,9 @@ public class DogRegister {
             chooseCommand(uInput);
 
         } while (running);
-       onExit(scanner); // stänger ner allt + lite ljud
-    }
-    private static void onExit(Scanner scanner){
-        System.out.print("exiting...");
-        playExitSound();
-        scanner.close();
-    }
-    private static void onStart() {
-
-        System.out.print("-------------------------\n");
-        System.out.print("|< Antons Dog Register >|\n");
-        System.out.print("-------------------------\n");
-        playWelcomeSound();
-
     }
 
-    private static void userOptionText() {
+    private void userOptionText() {
 
         System.out.print("commands:\n");
         System.out.print("1. add owner\n");
@@ -57,7 +71,7 @@ public class DogRegister {
 
     }
 
-    private static void chooseCommand(String uInput) {
+    private void chooseCommand(String uInput) {
         playInteracSound();
         switch (uInput) {
             case "1":
@@ -113,12 +127,12 @@ public class DogRegister {
         }
     }
 
-    private static void clearScreen() {
+    private void clearScreen() {
         System.out.print("\033[H\033[2J"); // flyttar markör till början och sedan rensa skärm
         System.out.flush(); // tar bort om de är något som är kvar i bufferten
     }
 
-    private static void waitFor(int timeToWait) {
+    private void waitFor(int timeToWait) {
         try {
             Thread.sleep(timeToWait);
         } catch (Exception e) {
@@ -157,9 +171,10 @@ public class DogRegister {
      * 
      * }
      */
-    //använde mig av dessa tutorials: https://www.youtube.com/watch?v=SyZQVJiARTQ och https://www.youtube.com/watch?v=wJO_cq5XeSA
+    // använde mig av dessa tutorials: https://www.youtube.com/watch?v=SyZQVJiARTQ
+    // och https://www.youtube.com/watch?v=wJO_cq5XeSA
     // försök 2(lyckat):
-    private static void playWelcomeSound() {
+    private void playWelcomeSound() {
         playSound("src/sound6.wav");
         waitFor(500);
         playSound("src/sound6.wav");
@@ -167,31 +182,32 @@ public class DogRegister {
         playSound("src/sound7.wav");
 
     }
-    private static void playExitSound(){
+
+    private void playExitSound() {
         playSound("src/sound6.wav");
         waitFor(500);
         playSound("src/sound7.wav");
-         waitFor(500);
-      
-       
+        waitFor(500);
+
     }
-    private static void playInteracSound(){
+
+    private void playInteracSound() {
         playSound("src/sound6.wav");
         waitFor(500);
     }
 
-    private static void playSound(String fileName) {
+    private void playSound(String fileName) {
         File file = new File(fileName); // vilken fil som ska spelas/skapar ett fil objekt
-        if(file.exists()){ //kollar att filen faktiskt finns så man inte exploderar och craschar
-        try {
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typ läser in ljudet så java kan
-                                                                                 // spela det förstod jag de som
-            Clip clip = AudioSystem.getClip(); // skapar en clip som behövs för att spela ljud typ som en cd spelare
-            clip.open(audioInput); // laddar "cd spelaren" med ljudet jag valt
-            clip.start(); // spela ljudet
-        } catch (Exception e) {
+        if (file.exists()) { // kollar att filen faktiskt finns så man inte exploderar och craschar
+            try {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typ läser in ljudet så java kan
+                                                                                     // spela det förstod jag de som
+                Clip clip = AudioSystem.getClip(); // skapar en clip som behövs för att spela ljud typ som en cd spelare
+                clip.open(audioInput); // laddar "cd spelaren" med ljudet jag valt
+                clip.start(); // spela ljudet
+            } catch (Exception e) {
 
-        }
+            }
         }
     }
 
