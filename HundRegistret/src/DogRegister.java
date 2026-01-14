@@ -1,4 +1,4 @@
-import java.util.Scanner;
+
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -8,21 +8,18 @@ public class DogRegister {
 
     private boolean running = true;
 
-    Scanner scanner = new Scanner(System.in);
+    InputReader input = new InputReader();
 
     public static void main(String[] args) {
 
-      new DogRegister().startProgram();
+        new DogRegister().startProgram();
 
-     
-
-        
     }
 
     private void onExit() {
         System.out.print("exiting...");
         playExitSound();
-        scanner.close();
+        input.close();
     }
 
     private void startProgram() {
@@ -47,7 +44,7 @@ public class DogRegister {
             userOptionText();
 
             // ta input
-            String uInput = scanner.nextLine().toLowerCase();
+            String uInput = input.readString("enter a command").toLowerCase();
             // executa input
             chooseCommand(uInput);
 
@@ -175,30 +172,30 @@ public class DogRegister {
     // och https://www.youtube.com/watch?v=wJO_cq5XeSA
     // försök 2(lyckat):
     private void playWelcomeSound() {
-        playSound("src/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
-        playSound("src/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
-        playSound("src/sound7.wav");
+        playSound("HundRegistret/resources/sound7.wav");
 
     }
 
     private void playExitSound() {
-        playSound("src/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
-        playSound("src/sound7.wav");
+        playSound("HundRegistret/resources/sound7.wav");
         waitFor(500);
 
     }
 
     private void playInteracSound() {
-        playSound("src/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
     }
 
     private void playSound(String fileName) {
         File file = new File(fileName); // vilken fil som ska spelas/skapar ett fil objekt
-        if (file.exists()) { // kollar att filen faktiskt finns så man inte exploderar och craschar
+        //if (file.exists()) { // kollar att filen faktiskt finns så man inte exploderar och craschar
             try {
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typ läser in ljudet så java kan
                                                                                      // spela det förstod jag de som
@@ -206,9 +203,9 @@ public class DogRegister {
                 clip.open(audioInput); // laddar "cd spelaren" med ljudet jag valt
                 clip.start(); // spela ljudet
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
-        }
+        //}
     }
 
 }

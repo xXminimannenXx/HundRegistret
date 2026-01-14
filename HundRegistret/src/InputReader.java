@@ -41,7 +41,7 @@ public class InputReader {
                 continue;
             }
         } while (tempInt < 0);
-        //scanner.nextLine();
+       
         return tempInt;
 
     }
@@ -85,7 +85,7 @@ public class InputReader {
                 continue;
             }
         } while (tempDouble < 0);
-        //scanner.nextLine();
+        
         return tempDouble;
     }
     public void close(){
