@@ -1,5 +1,5 @@
 //massor delar av koden är bort kommentarde för att fungera för junit testerna, om du vill ha de riktiga programmet 
-// ta tillbaka waitForUserInput, waitFor, clearScreen och alla ljud relaterade saker
+//ta tillbaka waitForUserInput, waitFor, clearScreen och alla ljud relaterade saker
 //hoppas att de inte är för hemskt att köra de utan dessa funktioner'
 //https://github.com/xXminimannenXx/HundRegistret
 
@@ -42,6 +42,7 @@ public class DogRegister {
         System.out.print("|< Antons Dog Register >|\n");
         System.out.print("-------------------------\n");
         playWelcomeSound();
+
         
 
     }
@@ -62,7 +63,6 @@ public class DogRegister {
     }
 
     private void userOptionText() {
-        System.out.println();
         System.out.print("commands:\n");
         System.out.print("0. help\n");
         System.out.print("1. add owner\n");
@@ -523,24 +523,24 @@ public class DogRegister {
     // försök 2(lyckat):
 
     private void playWelcomeSound() {
-        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
-        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
-        playSound("HundRegistret/HundRegistret/resources/sound7.wav");
+        playSound("HundRegistret/resources/sound7.wav");
 
     }
 
     private void playExitSound() {
-        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
-        playSound("HundRegistret/HundRegistret/resources/sound7.wav");
+        playSound("HundRegistret/resources/sound7.wav");
         waitFor(500);
 
     }
 
     private void playInteracSound() {
-        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        playSound("HundRegistret/resources/sound6.wav");
         waitFor(500);
     }
 

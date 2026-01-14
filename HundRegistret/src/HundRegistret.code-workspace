@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "HundRegistret",
+			"path": "../.."
+		},
+		{
+			"name": "hundregistertTRÅKIG",
+			"path": "../../../Java/hundregistertTRÅKIG"
+		}
+	],
+	"settings": {
+		"java.format.settings.url": "eclipse-formatter.xml"
+	}
+}
