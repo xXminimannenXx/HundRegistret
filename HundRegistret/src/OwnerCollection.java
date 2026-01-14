@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class OwnerCollection {
-    ArrayList<Owner> currentOwners = new ArrayList<Owner>();
+    private ArrayList<Owner> currentOwners = new ArrayList<Owner>();
 
     public boolean addOwner(Owner newOwner) {
         if (newOwner != null) {

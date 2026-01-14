@@ -91,4 +91,8 @@ public class InputReader {
     public void close(){
         scanner.close();
     }
+    public void waitForUserInput(){
+        System.out.print("press ENTER to contine ?>");
+        scanner.nextLine();
+    }
 }

@@ -7,7 +7,7 @@ import javax.sound.sampled.Clip;
 public class DogRegister {
 
     private boolean running = true;
-
+    OwnerCollection ownerCollection = new OwnerCollection();
     InputReader input = new InputReader();
 
     public static void main(String[] args) {
@@ -24,6 +24,7 @@ public class DogRegister {
 
     private void startProgram() {
         onStart(); // skriva ut välkomst meddelande + lite ljud
+        clearScreen();
         runCommandLoop();
         onExit(); // stänger ner allt + lite ljud
     }
@@ -40,6 +41,7 @@ public class DogRegister {
     private void runCommandLoop() {
         do {
             clearScreen();
+
             // skriva ut input grejer
             userOptionText();
 
@@ -54,6 +56,7 @@ public class DogRegister {
     private void userOptionText() {
 
         System.out.print("commands:\n");
+        System.out.print("0. help\n");
         System.out.print("1. add owner\n");
         System.out.print("2. remove owner\n");
         System.out.print("3. add dog\n");
@@ -64,31 +67,38 @@ public class DogRegister {
         System.out.print("8. increase age\n");
         System.out.print("9. exit\n");
 
-        System.out.print("?>");
-
     }
 
     private void chooseCommand(String uInput) {
         playInteracSound();
         switch (uInput) {
+            case "0":
+            case "h":
+            case "help":
+                helpText();
+                break;
             case "1":
             case "ao":
             case "add owner":
                 // lägga till owner
+                addOwner();
                 break;
             case "2":
             case "ro":
             case "remove owner":
                 // ta bort owner
+                removeOwner();
                 break;
             case "3":
             case "ad":
             case "add dog":
+                addDog();
                 // lägga till owner
                 break;
             case "4":
             case "rd":
             case "remove dog":
+                removeDog();
                 // ta bort hund
                 break;
             case "5":
@@ -100,6 +110,7 @@ public class DogRegister {
             case "lo":
             case "list owners":
                 // lista ägarna
+                listOwners();
                 break;
             case "7":
             case "ld":
@@ -122,6 +133,137 @@ public class DogRegister {
                 waitFor(1000);
                 break;
         }
+    }
+
+    private void addOwner() {
+        boolean succses = false;
+        String ownerName = "";
+        while (!succses) {
+            ownerName = input.readString("enter the owners name");
+            playInteracSound();
+            if (ownerCollection.containsOwner(ownerName)) {
+                System.out.print("error owner already exists\n");
+            } else {
+                succses = true;
+            }
+        }
+        ownerCollection.addOwner(new Owner(ownerName));
+    }
+
+    private void addDog() {
+        if (ownerCollection.getAllOwners().size() > 0) {
+            String ownerName = input.readString("enter the name of the owner the dog is registerd under");
+            if (ownerCollection.getOwner(ownerName).ownsMaxDogs()) {
+                System.out.print("error that owner already ownes the max (7) amount of dogs");
+                waitForUserInput();
+            } else {
+
+                String dogName = input.readString("enter the dogs name");
+                String dogBreed = input.readString("enter the dog breed");
+                int dogAge = input.readInt("enter the dogs age");
+                int dogWeight = input.readInt("enter the dogs weight in whole numbers rounded up");
+                ownerCollection.getOwner(ownerName).addDog(new Dog(dogName, dogBreed, dogAge, dogWeight));
+            }
+
+        }
+    }
+    private void changeOwner(){
+        
+    }
+
+    private void listOwners() {
+        playInteracSound();
+        if (ownerCollection.getAllOwners().size() > 0) {
+            int charToAdd = 0;
+            for (Owner o : ownerCollection.getAllOwners()) {
+                charToAdd += o.getName().length();
+
+            }
+            charToAdd += ownerCollection.getAllOwners().size();
+            printTopBar(charToAdd);
+            for (Owner o : ownerCollection.getAllOwners()) {
+                System.out.print(o.getName() + " ");
+            }
+            System.out.println();
+
+        } else {
+            System.out.print("error no owners exists\n");
+        }
+        waitForUserInput();
+
+    }
+
+    private void removeOwner() {
+        String tempOwner = "";
+
+        if (ownerCollection.getAllOwners().size() > 0) {
+            tempOwner = input.readString("enter the owner you want to remove");
+            playInteracSound();
+            if (ownerCollection.containsOwner(tempOwner)) {
+                ownerCollection.removeOwner(tempOwner);
+                System.out.print("owner removed\n");
+                waitForUserInput();
+
+            } else {
+                System.out.print("error that owner does not exist\n");
+                waitForUserInput();
+            }
+        } else {
+            System.out.print("error no owners exists\n");
+            waitForUserInput();
+        }
+
+    }
+    private void removeDog(){
+        boolean dogExsists = false;
+        for(Owner o : ownerCollection.getAllOwners()){
+            if(o.ownsAnyDog() == true){
+                dogExsists = true;
+            }
+        }
+        if(dogExsists == false){
+            System.out.print("error no dogs exsists");
+            waitForUserInput();
+        }
+        else{
+            String ownerName = input.readString("enter the name of the owner of the dog");
+            if(ownerCollection.getOwner(ownerName) != null || !ownerCollection.getOwner(ownerName).ownsAnyDog()){
+                System.out.print("error the owner does not exist or the owner dosent have any dogs\n");
+                waitForUserInput();
+
+            }
+            else{
+            String dogName = input.readString("enter the name of the dog to be removed");
+            if(ownerCollection.getOwner(ownerName).ownsDog(dogName)){
+            ownerCollection.getOwner(ownerName).removeDog(dogName);
+            System.out.print("dog removed from owner\n");
+            waitForUserInput();
+        }
+            else{
+                System.out.print("error the owner does not own that dog\n");
+                waitForUserInput();
+            }
+            }
+        }
+    }
+
+    private void printTopBar(int num) {
+        for (int i = 0; i < num; i++) {
+            System.out.print("=");
+        }
+        System.out.println();
+    }
+
+    private void waitForUserInput() {
+        input.waitForUserInput();
+        playInteracSound();
+        clearScreen();
+    }
+
+    private void helpText() {
+        System.out.print(
+                "this program is used to register owners and dogs.\nall commands can be used by typing the number, \nthe full command or the initals of the command\n");
+        waitForUserInput();
     }
 
     private void clearScreen() {
@@ -195,7 +337,8 @@ public class DogRegister {
 
     private void playSound(String fileName) {
         File file = new File(fileName); // vilken fil som ska spelas/skapar ett fil objekt
-        //if (file.exists()) { // kollar att filen faktiskt finns så man inte exploderar och craschar
+        if (file.exists()) { // kollar att filen faktiskt finns så man inte
+            // exploderar och craschar
             try {
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typ läser in ljudet så java kan
                                                                                      // spela det förstod jag de som
@@ -205,7 +348,6 @@ public class DogRegister {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        //}
+        }
     }
-
 }
