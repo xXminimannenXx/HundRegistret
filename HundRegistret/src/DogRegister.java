@@ -1,6 +1,7 @@
 //massor delar av koden är bort kommentarde för att fungera för junit testerna, om du vill ha de riktiga programmet 
 // ta tillbaka waitForUserInput, waitFor, clearScreen och alla ljud relaterade saker
-//hoppas att de inte är för hemskt att köra de utan dessa funktioner
+//hoppas att de inte är för hemskt att köra de utan dessa funktioner'
+//https://github.com/xXminimannenXx/HundRegistret
 
 //import java.io.File;
 import java.util.ArrayList;
