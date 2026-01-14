@@ -1,11 +1,15 @@
 public class Tester {
     public static void main(String[] args){
-        Dog hund1 = new Dog("kalle", "kallehund", 4, 5);
-        Dog hund2 = new Dog("Jens", "kallehund", 4, 5);
-        Dog hund3 = new Dog("Julia", "kallehund", 4, 5);
-        Owner Anton = new Owner("Anton", hund1,hund2,hund3);
-        System.out.print(Anton.toString());
-       
+        InputReader inputReader = new InputReader();
+        int age = inputReader.readInt("enter dog age");
+       while(age != 10){
+        age = inputReader.readInt("enter dog age");
+       }
+       String name = inputReader.readString("enter owner name");
+       while (!name.equals("Anton")) {
+        name = inputReader.readString("enter owner name");
+        
+       }
 
     }
 }
