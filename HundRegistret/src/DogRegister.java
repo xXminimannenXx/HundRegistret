@@ -153,22 +153,31 @@ public class DogRegister {
     private void addDog() {
         if (ownerCollection.getAllOwners().size() > 0) {
             String ownerName = input.readString("enter the name of the owner the dog is registerd under");
+            if (ownerCollection.getOwner(ownerName) == null) {
+                System.out.print("error that owner does not exists\n");
+            }
             if (ownerCollection.getOwner(ownerName).ownsMaxDogs()) {
-                System.out.print("error that owner already ownes the max (7) amount of dogs");
+                System.out.print("error that owner already ownes the max (7) amount of dogs\n");
                 waitForUserInput();
             } else {
 
                 String dogName = input.readString("enter the dogs name");
-                String dogBreed = input.readString("enter the dog breed");
-                int dogAge = input.readInt("enter the dogs age");
-                int dogWeight = input.readInt("enter the dogs weight in whole numbers rounded up");
-                ownerCollection.getOwner(ownerName).addDog(new Dog(dogName, dogBreed, dogAge, dogWeight));
+                if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
+                    System.out.print("error owner already owns a dog with the same name\n");
+                    waitForUserInput();
+                } else {
+                    String dogBreed = input.readString("enter the dog breed");
+                    int dogAge = input.readInt("enter the dogs age");
+                    int dogWeight = input.readInt("enter the dogs weight in whole numbers rounded up");
+                    ownerCollection.getOwner(ownerName).addDog(new Dog(dogName, dogBreed, dogAge, dogWeight));
+                }
             }
 
         }
     }
-    private void changeOwner(){
-        
+
+    private void changeOwner() {
+
     }
 
     private void listOwners() {
@@ -214,35 +223,33 @@ public class DogRegister {
         }
 
     }
-    private void removeDog(){
+
+    private void removeDog() {
         boolean dogExsists = false;
-        for(Owner o : ownerCollection.getAllOwners()){
-            if(o.ownsAnyDog() == true){
+        for (Owner o : ownerCollection.getAllOwners()) {
+            if (o.ownsAnyDog() == true) {
                 dogExsists = true;
             }
         }
-        if(dogExsists == false){
+        if (dogExsists == false) {
             System.out.print("error no dogs exsists");
             waitForUserInput();
-        }
-        else{
+        } else {
             String ownerName = input.readString("enter the name of the owner of the dog");
-            if(ownerCollection.getOwner(ownerName) != null || !ownerCollection.getOwner(ownerName).ownsAnyDog()){
+            if (ownerCollection.getOwner(ownerName) != null || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
                 System.out.print("error the owner does not exist or the owner dosent have any dogs\n");
                 waitForUserInput();
 
-            }
-            else{
-            String dogName = input.readString("enter the name of the dog to be removed");
-            if(ownerCollection.getOwner(ownerName).ownsDog(dogName)){
-            ownerCollection.getOwner(ownerName).removeDog(dogName);
-            System.out.print("dog removed from owner\n");
-            waitForUserInput();
-        }
-            else{
-                System.out.print("error the owner does not own that dog\n");
-                waitForUserInput();
-            }
+            } else {
+                String dogName = input.readString("enter the name of the dog to be removed");
+                if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
+                    ownerCollection.getOwner(ownerName).removeDog(dogName);
+                    System.out.print("dog removed from owner\n");
+                    waitForUserInput();
+                } else {
+                    System.out.print("error the owner does not own that dog\n");
+                    waitForUserInput();
+                }
             }
         }
     }
