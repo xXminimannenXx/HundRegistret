@@ -3,13 +3,13 @@
 //hoppas att de inte är för hemskt att köra de utan dessa funktioner'
 //https://github.com/xXminimannenXx/HundRegistret
 
-//import java.io.File;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-//import javax.sound.sampled.AudioInputStream;
-//import javax.sound.sampled.AudioSystem;
-//import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class DogRegister {
 
@@ -25,13 +25,13 @@ public class DogRegister {
 
     private void onExit() {
         System.out.print("exiting...");
-        // playExitSound();
+        playExitSound();
         input.close();
     }
 
     private void startProgram() {
         onStart(); // skriva ut välkomst meddelande + lite ljud
-        // clearScreen();
+        clearScreen();
         runCommandLoop();
         onExit(); // stänger ner allt + lite ljud
     }
@@ -41,13 +41,14 @@ public class DogRegister {
         System.out.print("-------------------------\n");
         System.out.print("|< Antons Dog Register >|\n");
         System.out.print("-------------------------\n");
-        // playWelcomeSound();
+        playWelcomeSound();
+        
 
     }
 
     private void runCommandLoop() {
         do {
-            // clearScreen();
+            clearScreen();
 
             // skriva ut input grejer
             userOptionText();
@@ -77,7 +78,7 @@ public class DogRegister {
     }
 
     private void chooseCommand(String userInput) {
-        // playInteracSound();
+        playInteracSound();
         switch (userInput) {
             case "0":
             case "h":
@@ -140,7 +141,7 @@ public class DogRegister {
                 break;
             default:
                 System.out.print("error: invalid command\n");
-                // waitFor(1000);
+                waitFor(1000);
                 break;
         }
     }
@@ -167,7 +168,7 @@ public class DogRegister {
         String ownerName = "";
 
         ownerName = input.readString("enter the owners name");
-        // playInteracSound();
+        playInteracSound();
         if (ownerCollection.containsOwner(ownerName)) {
             System.out.print("error the owner " + ownerName + " already exists\n");
         } else {
@@ -217,7 +218,7 @@ public class DogRegister {
 
             if (!ownerCollection.containsOwner(ownerName)) {
                 System.out.print("error that owner does not exist\n");
-                // waitForUserInput();
+                waitForUserInput();
                 return;
             }
 
@@ -225,13 +226,13 @@ public class DogRegister {
 
             if (owner.ownsMaxDogs()) {
                 System.out.print("error that owner already owns the max (7) amount of dogs\n");
-                // waitForUserInput();
+                waitForUserInput();
                 return;
             }
             String dogName = input.readString("enter the dogs name");
             if (owner.ownsDog(dogName)) {
                 System.out.print("error owner already owns a dog with the same name\n");
-                // waitForUserInput();
+                waitForUserInput();
                 return;
             }
 
@@ -246,7 +247,7 @@ public class DogRegister {
             } else {
                 System.out.print("error: could not add dog\n");
             }
-            // waitForUserInput();
+             waitForUserInput();
         }
     }
 
@@ -255,7 +256,7 @@ public class DogRegister {
             return;
         }
         if (!anyDogsExists()) {
-            // waitForUserInput();
+            waitForUserInput();
             return;
         }
         String ownerName = getCurrentOwner().getName();
@@ -263,7 +264,7 @@ public class DogRegister {
         String newOwnerName = input.readString("enter the name of the dogs new owner");
         if (!ownerCollection.containsOwner(newOwnerName)) {
             System.out.print("error that owner does not exist\n");
-            // waitForUserInput();
+            waitForUserInput();
             return;
         }
         if (ownsDog(newOwnerName, dogName)) {
@@ -271,14 +272,14 @@ public class DogRegister {
         }
         if (ownerCollection.getOwner(newOwnerName).ownsMaxDogs()) {
             System.out.print("error that owner already owns the max amount of dogs\n");
-            // waitForUserInput();
+            waitForUserInput();
             return;
         }
         for (Dog d : ownerCollection.getOwner(ownerName).getDogs()) {
             if (d.getName().equals(dogName)) {
                 ownerCollection.getOwner(newOwnerName).addDog(d);
                 System.out.print("dog added to new owner\n");
-                // waitForUserInput();
+                waitForUserInput();
                 return;
             }
         }
@@ -286,7 +287,7 @@ public class DogRegister {
     }
 
     private void listOwners() {
-        // playInteracSound();
+        playInteracSound();
         if (ownerCollection.getAllOwners().size() > 0) {
             /*
              * int charToAdd = 0; tyckte inte att de blev så snyggt
@@ -311,7 +312,7 @@ public class DogRegister {
         } else {
             System.out.print("error no owners exists\n");
         }
-        // waitForUserInput();
+        waitForUserInput();
 
     }
 
@@ -319,7 +320,7 @@ public class DogRegister {
 
         if (!anyDogsExists()) {
             System.out.print("error no dogs in system\n");
-            // waitForUserInput();
+            waitForUserInput();
             return;
         }
         double tailLengthCutOff = input.readDouble("enter the minimum tail length for the dogs");
@@ -339,7 +340,7 @@ public class DogRegister {
         Collections.addAll(tempDogArray, dogArray);
         if (tempDogArray.isEmpty()) {
             System.out.print("error no valid dogs found\n");
-            // waitForUserInput();
+            waitForUserInput();
             return;
         }
         for (Dog d : tempDogArray) {
@@ -352,7 +353,7 @@ public class DogRegister {
 
         if (!anyDogsExists()) {
             System.out.print("error no dogs in system\n");
-            // waitForUserInput();
+            waitForUserInput();
             return;
         }
         for (Owner o : ownerCollection.getAllOwners()) {
@@ -367,19 +368,19 @@ public class DogRegister {
 
         if (ownerCollection.getAllOwners().size() > 0) {
             tempOwner = input.readString("enter the owner you want to remove");
-            // playInteracSound();
+            playInteracSound();
             if (ownerCollection.containsOwner(tempOwner)) {
                 ownerCollection.removeOwner(tempOwner);
                 System.out.print("owner removed\n");
-                // waitForUserInput();
+                waitForUserInput();
 
             } else {
                 System.out.print("error that owner does not exist\n");
-                // waitForUserInput();
+                waitForUserInput();
             }
         } else {
             System.out.print("error no owners exists\n");
-            // waitForUserInput();
+            waitForUserInput();
         }
 
     }
@@ -388,22 +389,22 @@ public class DogRegister {
 
         if (!anyDogsExists()) {
             System.out.print("error no dogs exsists");
-            // waitForUserInput();
+            waitForUserInput();
         } else {
             String ownerName = input.readString("enter the name of the owner of the dog");
             if (ownerCollection.getOwner(ownerName) == null || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
                 System.out.print("error the owner does not exist or the owner dosent have any dogs\n");
-                // waitForUserInput();
+                waitForUserInput();
 
             } else {
                 String dogName = input.readString("enter the name of the dog to be removed");
                 if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
                     ownerCollection.getOwner(ownerName).removeDog(dogName);
                     System.out.print("dog removed from owner\n");
-                    // waitForUserInput();
+                    waitForUserInput();
                 } else {
                     System.out.print("error the owner does not own that dog\n");
-                    // waitForUserInput();
+                    waitForUserInput();
                 }
             }
         }
@@ -427,7 +428,7 @@ public class DogRegister {
     private boolean ownsDog(String ownerName, String dogName) {
         if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
             System.out.print("error the owner already owns a dog with that name\n");
-            // waitForUserInput();
+            waitForUserInput();
             return true;
         }
         return false;
@@ -446,13 +447,13 @@ public class DogRegister {
     private void helpText() {
         System.out.print(
                 "this program is used to register owners and dogs.\nall commands can be used by typing the number, \nthe full command or the initals of the command\nthe program has been guted to clear all requirments for junit\nlook at the top comment in the code to se what to re add\n");
-        // waitForUserInput();
+        waitForUserInput();
     }
 
     private boolean hasEnoughOwners() {
         if (ownerCollection.getAllOwners().size() < 2) {
             System.out.print("error need at least 2 owners to change owner\n");
-            // waitForUserInput();
+            waitForUserInput();
             return false;
         }
         return true;
@@ -466,31 +467,25 @@ public class DogRegister {
      * }
      */
 
-    /*
-     * private void waitForUserInput() {
-     * input.waitForUserInput();
-     * playInteracSound();
-     * clearScreen();
-     * }
-     */
+    private void waitForUserInput() {
+        input.waitForUserInput();
+        playInteracSound();
+        clearScreen();
+    }
 
-    /*
-     * private void clearScreen() {
-     * System.out.print("\033[H\033[2J"); // flyttar markör till början och sedan
-     * rensa skärm
-     * System.out.flush(); // tar bort om de är något som är kvar i bufferten
-     * }
-     */
+    private void clearScreen() {
+        System.out.print("\033[H\033[2J"); // flyttar markör till början och sedan rensa skärm
 
-    /*
-     * private void waitFor(int timeToWait) {
-     * try {
-     * Thread.sleep(timeToWait);
-     * } catch (Exception e) {
-     * 
-     * }
-     * }
-     */
+        System.out.flush(); // tar bort om de är något som är kvar i bufferten
+    }
+
+    private void waitFor(int timeToWait) {
+        try {
+            Thread.sleep(timeToWait);
+        } catch (Exception e) {
+
+        }
+    }
 
     // ville försöka att ha lite ljud med som en välkomst jingle så här är mitt
     // försökt till de:
@@ -526,52 +521,46 @@ public class DogRegister {
     // använde mig av dessa tutorials: https://www.youtube.com/watch?v=SyZQVJiARTQ
     // och https://www.youtube.com/watch?v=wJO_cq5XeSA
     // försök 2(lyckat):
-    /*
-     * private void playWelcomeSound() {
-     * playSound("HundRegistret/resources/sound6.wav");
-     * //waitFor(500);
-     * playSound("HundRegistret/resources/sound6.wav");
-     * //waitFor(500);
-     * playSound("HundRegistret/resources/sound7.wav");
-     * 
-     * }
-     */
 
-    /*
-     * private void playExitSound() {
-     * playSound("HundRegistret/resources/sound6.wav");
-     * //waitFor(500);
-     * playSound("HundRegistret/resources/sound7.wav");
-     * //waitFor(500);
-     * 
-     * }
-     */
+    private void playWelcomeSound() {
+        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        waitFor(500);
+        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        waitFor(500);
+        playSound("HundRegistret/HundRegistret/resources/sound7.wav");
 
-    /*
-     * private void playInteracSound() {
-     * playSound("HundRegistret/resources/sound6.wav");
-     * //waitFor(500);
-     * }
-     */
+    }
 
-    /*
-     * private void playSound(String fileName) {
-     * File file = new File(fileName); // vilken fil som ska spelas/skapar ett fil
-     * objekt
-     * if (file.exists()) { // kollar att filen faktiskt finns så man inte
-     * // exploderar och craschar
-     * try {
-     * AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typ
-     * läser in ljudet så java kan
-     * // spela det förstod jag de som
-     * Clip clip = AudioSystem.getClip(); // skapar en clip som behövs för att spela
-     * ljud typ som en cd spelare
-     * clip.open(audioInput); // laddar "cd spelaren" med ljudet jag valt
-     * clip.start(); // spela ljudet
-     * } catch (Exception e) {
-     * e.printStackTrace();
-     * }
-     * }
-     * }
-     */
+    private void playExitSound() {
+        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        waitFor(500);
+        playSound("HundRegistret/HundRegistret/resources/sound7.wav");
+        waitFor(500);
+
+    }
+
+    private void playInteracSound() {
+        playSound("HundRegistret/HundRegistret/resources/sound6.wav");
+        waitFor(500);
+    }
+
+    private void playSound(String fileName) {
+        File file = new File(fileName); // vilken fil som ska spelas/skapar ett fil objekt
+
+        if (file.exists()) { // kollar att filen faktiskt finns så man inte
+            // exploderar och craschar
+            try {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); // typläser in ljudet så java kan
+
+                // spela det förstod jag de som
+                Clip clip = AudioSystem.getClip(); // skapar en clip som behövs för att spela ljud typ som en cd spelare
+
+                clip.open(audioInput); // laddar "cd spelaren" med ljudet jag valt
+                clip.start(); // spela ljudet
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
