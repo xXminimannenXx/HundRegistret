@@ -1,4 +1,7 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -104,6 +107,7 @@ public class DogRegister {
             case "co":
             case "change owner":
                 // byt ägare
+                changeOwner();
                 break;
             case "6":
             case "lo":
@@ -115,6 +119,7 @@ public class DogRegister {
             case "ld":
             case "list dogs":
                 // lista hundarna
+                listDogs();
                 break;
             case "8":
             case "ia":
@@ -226,35 +231,60 @@ public class DogRegister {
     }
 
     private void changeOwner() {
-        if(ownerCollection.getAllOwners().size() < 2){
+        if (ownerCollection.getAllOwners().size() < 2) {
             System.out.print("error need at least 2 owners to change owner\n");
             waitForUserInput();
             return;
         }
         boolean dogExsists = false;
-        for(Owner o : ownerCollection.getAllOwners()){
-            if(o.ownsAnyDog()){
+        for (Owner o : ownerCollection.getAllOwners()) {
+            if (o.ownsAnyDog()) {
                 dogExsists = true;
             }
-            
+
         }
-        if(!dogExsists){
+        if (!dogExsists) {
             System.out.print("error no dogs in system\n");
             waitForUserInput();
             return;
         }
         String ownerName = input.readString("enter the name of the dogs current owner");
-        if(!ownerCollection.containsOwner(ownerName) && !ownerCollection.getOwner(ownerName).ownsAnyDog()){
+        if (!ownerCollection.containsOwner(ownerName) && !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
             System.out.print("error the owner does not exist or does not own any dogs\n");
             waitForUserInput();
             return;
         }
         String dogName = input.readString("enter the name for the dog that should change owner");
-        if(!ownerCollection.getOwner(ownerName).ownsDog(dogName)){
+        if (!ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
             System.out.print("error the owner does not own a dog with that name\n");
             waitForUserInput();
             return;
         }
+        String newOwnerName = input.readString("enter the name of the dogs new owner");
+        if (!ownerCollection.containsOwner(newOwnerName)) {
+            System.out.print("error that owner does not exist\n");
+            waitForUserInput();
+            return;
+        }
+        if (ownerCollection.getOwner(newOwnerName).ownsDog(dogName)) {
+            System.out.print("error the owner already owns a dog with that name\n");
+            waitForUserInput();
+            return;
+        }
+        if (ownerCollection.getOwner(newOwnerName).ownsMaxDogs()) {
+            System.out.print("error that owner already owns the max amount of dogs\n");
+            waitForUserInput();
+            return;
+        }
+        for (Dog d : ownerCollection.getOwner(ownerName).getDogs()) {
+            if (d.getName().equals(dogName)) {
+                ownerCollection.getOwner(newOwnerName).addDog(d);
+                System.out.print("dog added to new owner\n");
+                waitForUserInput();
+                return;
+            }
+        }
+
     }
 
     private void listOwners() {
@@ -276,6 +306,47 @@ public class DogRegister {
             System.out.print("error no owners exists\n");
         }
         waitForUserInput();
+
+    }
+
+    private void listDogs() {
+        boolean dogExsists = false;
+        for (Owner o : ownerCollection.getAllOwners()) {
+            if (o.ownsAnyDog()) {
+                dogExsists = true;
+            }
+        }
+        if (!dogExsists) {
+            System.out.print("error no dogs in system\n");
+            waitForUserInput();
+            return;
+        }
+        double tailLengthCutOff = input.readDouble("enter the minimum tail length for the dogs");
+        ArrayList<Dog> tempDogArray = new ArrayList<Dog>();
+        for (Owner o : ownerCollection.getAllOwners()) {
+            for (Dog d : o.getDogs()) {
+                if (d.getTailLength() >= tailLengthCutOff) {
+                    tempDogArray.add(d);
+                }
+            }
+        }
+        TailNameComparator comparator = new TailNameComparator();
+        Dog[] dogArray = tempDogArray.toArray(new Dog[tempDogArray.size()]);
+        DogSorter.sort(SortingAlgorithm.SELECTION_SORT, comparator, dogArray);
+
+        tempDogArray.clear();
+        Collections.addAll(tempDogArray, dogArray);
+        if(tempDogArray.isEmpty()){
+            System.out.print("error no valid dogs found\n");
+            waitForUserInput();
+            return;
+        }
+        for(Dog d : tempDogArray){
+            System.out.print("dog name "+d.getName() + " tail lenght " + d.getTailLength() + " owner name " + d.getOwner().getName() + "\n");
+        }
+
+    }
+    private void increaseAge(){
 
     }
 
