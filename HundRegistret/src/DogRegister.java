@@ -270,7 +270,7 @@ public class DogRegister {
             return;
         }
         String ownerName = input.readString("enter the name of the dogs current owner");
-        if (!ownerCollection.containsOwner(ownerName) && !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
+        if (!ownerCollection.containsOwner(ownerName) || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
             System.out.print("error the owner does not exist or does not own any dogs\n");
             // waitForUserInput();
             return;
