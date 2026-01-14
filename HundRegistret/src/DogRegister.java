@@ -1,4 +1,3 @@
-
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -150,34 +149,112 @@ public class DogRegister {
         ownerCollection.addOwner(new Owner(ownerName));
     }
 
+    /*
+     * blev så clutterd och funkade typ inte trodde jag men hade fel på min null
+     * check i removedog skrev != istället för ==
+     * private void addDog() {
+     * if (ownerCollection.getAllOwners().size() > 0) {
+     * String ownerName =
+     * input.readString("enter the name of the owner the dog is registerd under");
+     * if (ownerCollection.getOwner(ownerName) == null) {
+     * System.out.print("error that owner does not exists\n");
+     * waitForUserInput();
+     * }
+     * if (ownerCollection.getOwner(ownerName).ownsMaxDogs()) {
+     * System.out.
+     * print("error that owner already ownes the max (7) amount of dogs\n");
+     * waitForUserInput();
+     * } else {
+     * 
+     * String dogName = input.readString("enter the dogs name");
+     * if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
+     * System.out.print("error owner already owns a dog with the same name\n");
+     * waitForUserInput();
+     * } else {
+     * String dogBreed = input.readString("enter the dog breed");
+     * int dogAge = input.readInt("enter the dogs age");
+     * int dogWeight =
+     * input.readInt("enter the dogs weight in whole numbers rounded up");
+     * ownerCollection.getOwner(ownerName).addDog(new Dog(dogName, dogBreed, dogAge,
+     * dogWeight));
+     * }
+     * }
+     * 
+     * }
+     * }
+     */
     private void addDog() {
         if (ownerCollection.getAllOwners().size() > 0) {
-            String ownerName = input.readString("enter the name of the owner the dog is registerd under");
-            if (ownerCollection.getOwner(ownerName) == null) {
-                System.out.print("error that owner does not exists\n");
-            }
-            if (ownerCollection.getOwner(ownerName).ownsMaxDogs()) {
-                System.out.print("error that owner already ownes the max (7) amount of dogs\n");
+            String ownerName = input.readString("enter the name of the owner the dog is registered under");
+
+            if (!ownerCollection.containsOwner(ownerName)) {
+                System.out.print("error that owner does not exist\n");
                 waitForUserInput();
-            } else {
-
-                String dogName = input.readString("enter the dogs name");
-                if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
-                    System.out.print("error owner already owns a dog with the same name\n");
-                    waitForUserInput();
-                } else {
-                    String dogBreed = input.readString("enter the dog breed");
-                    int dogAge = input.readInt("enter the dogs age");
-                    int dogWeight = input.readInt("enter the dogs weight in whole numbers rounded up");
-                    ownerCollection.getOwner(ownerName).addDog(new Dog(dogName, dogBreed, dogAge, dogWeight));
-                }
+                return;
             }
 
+            Owner owner = ownerCollection.getOwner(ownerName);
+
+            if (owner.ownsMaxDogs()) {
+                System.out.print("error that owner already owns the max (7) amount of dogs\n");
+                waitForUserInput();
+                return;
+            }
+
+            String dogName = input.readString("enter the dogs name");
+            if (owner.ownsDog(dogName)) {
+                System.out.print("error owner already owns a dog with the same name\n");
+                waitForUserInput();
+                return;
+            }
+
+            String dogBreed = input.readString("enter the dog breed");
+            int dogAge = input.readInt("enter the dogs age");
+            int dogWeight = input.readInt("enter the dogs weight in whole numbers rounded up");
+
+            Dog newDog = new Dog(dogName, dogBreed, dogAge, dogWeight);
+
+            boolean success = newDog.setOwner(owner);
+
+            if (success) {
+                System.out.print("Dog added successfully\n");
+            } else {
+                System.out.print("error: could not add dog\n");
+            }
+            waitForUserInput();
         }
     }
 
     private void changeOwner() {
-
+        if(ownerCollection.getAllOwners().size() < 2){
+            System.out.print("error need at least 2 owners to change owner\n");
+            waitForUserInput();
+            return;
+        }
+        boolean dogExsists = false;
+        for(Owner o : ownerCollection.getAllOwners()){
+            if(o.ownsAnyDog()){
+                dogExsists = true;
+            }
+            
+        }
+        if(!dogExsists){
+            System.out.print("error no dogs in system\n");
+            waitForUserInput();
+            return;
+        }
+        String ownerName = input.readString("enter the name of the dogs current owner");
+        if(!ownerCollection.containsOwner(ownerName) && !ownerCollection.getOwner(ownerName).ownsAnyDog()){
+            System.out.print("error the owner does not exist or does not own any dogs\n");
+            waitForUserInput();
+            return;
+        }
+        String dogName = input.readString("enter the name for the dog that should change owner");
+        if(!ownerCollection.getOwner(ownerName).ownsDog(dogName)){
+            System.out.print("error the owner does not own a dog with that name\n");
+            waitForUserInput();
+            return;
+        }
     }
 
     private void listOwners() {
@@ -236,7 +313,7 @@ public class DogRegister {
             waitForUserInput();
         } else {
             String ownerName = input.readString("enter the name of the owner of the dog");
-            if (ownerCollection.getOwner(ownerName) != null || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
+            if (ownerCollection.getOwner(ownerName) == null || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
                 System.out.print("error the owner does not exist or the owner dosent have any dogs\n");
                 waitForUserInput();
 
