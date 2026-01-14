@@ -2,13 +2,13 @@
 // ta tillbaka waitForUserInput, waitFor, clearScreen och alla ljud relaterade saker
 //hoppas att de inte är för hemskt att köra de utan dessa funktioner
 
-import java.io.File;
+//import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+//import javax.sound.sampled.AudioInputStream;
+//import javax.sound.sampled.AudioSystem;
+//import javax.sound.sampled.Clip;
 
 public class DogRegister {
 
@@ -52,15 +52,15 @@ public class DogRegister {
             userOptionText();
 
             // ta input
-            String uInput = input.readString("enter a command").toLowerCase();
+            String userInput = input.readString("enter a command").toLowerCase();
             // executa input
-            chooseCommand(uInput);
+            chooseCommand(userInput);
 
         } while (running);
     }
 
     private void userOptionText() {
-
+        System.out.println();
         System.out.print("commands:\n");
         System.out.print("0. help\n");
         System.out.print("1. add owner\n");
@@ -75,9 +75,9 @@ public class DogRegister {
 
     }
 
-    private void chooseCommand(String uInput) {
+    private void chooseCommand(String userInput) {
         // playInteracSound();
-        switch (uInput) {
+        switch (userInput) {
             case "0":
             case "h":
             case "help":
@@ -209,6 +209,7 @@ public class DogRegister {
      * }
      * }
      */
+
     private void addDog() {
         if (ownerCollection.getAllOwners().size() > 0) {
             String ownerName = input.readString("enter the name of the owner the dog is registered under");
@@ -226,7 +227,6 @@ public class DogRegister {
                 // waitForUserInput();
                 return;
             }
-
             String dogName = input.readString("enter the dogs name");
             if (owner.ownsDog(dogName)) {
                 System.out.print("error owner already owns a dog with the same name\n");
@@ -240,9 +240,7 @@ public class DogRegister {
 
             Dog newDog = new Dog(dogName, dogBreed, dogAge, dogWeight);
 
-            boolean success = newDog.setOwner(owner);
-
-            if (success) {
+            if (newDog.setOwner(owner)) {
                 System.out.print("Dog added successfully\n");
             } else {
                 System.out.print("error: could not add dog\n");
@@ -252,44 +250,22 @@ public class DogRegister {
     }
 
     private void changeOwner() {
-        if (ownerCollection.getAllOwners().size() < 2) {
-            System.out.print("error need at least 2 owners to change owner\n");
+        if (!hasEnoughOwners()) {
+            return;
+        }
+        if (!anyDogsExists()) {
             // waitForUserInput();
             return;
         }
-        boolean dogExsists = false;
-        for (Owner o : ownerCollection.getAllOwners()) {
-            if (o.ownsAnyDog()) {
-                dogExsists = true;
-            }
-
-        }
-        if (!dogExsists) {
-            System.out.print("error no dogs in system\n");
-            // waitForUserInput();
-            return;
-        }
-        String ownerName = input.readString("enter the name of the dogs current owner");
-        if (!ownerCollection.containsOwner(ownerName) || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
-            System.out.print("error the owner does not exist or does not own any dogs\n");
-            // waitForUserInput();
-            return;
-        }
+        String ownerName = getCurrentOwner().getName();
         String dogName = input.readString("enter the name for the dog that should change owner");
-        if (!ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
-            System.out.print("error the owner does not own a dog with that name\n");
-            // waitForUserInput();
-            return;
-        }
         String newOwnerName = input.readString("enter the name of the dogs new owner");
         if (!ownerCollection.containsOwner(newOwnerName)) {
             System.out.print("error that owner does not exist\n");
             // waitForUserInput();
             return;
         }
-        if (ownerCollection.getOwner(newOwnerName).ownsDog(dogName)) {
-            System.out.print("error the owner already owns a dog with that name\n");
-            // waitForUserInput();
+        if (ownsDog(newOwnerName, dogName)) {
             return;
         }
         if (ownerCollection.getOwner(newOwnerName).ownsMaxDogs()) {
@@ -339,13 +315,8 @@ public class DogRegister {
     }
 
     private void listDogs() {
-        boolean dogExsists = false;
-        for (Owner o : ownerCollection.getAllOwners()) {
-            if (o.ownsAnyDog()) {
-                dogExsists = true;
-            }
-        }
-        if (!dogExsists) {
+
+        if (!anyDogsExists()) {
             System.out.print("error no dogs in system\n");
             // waitForUserInput();
             return;
@@ -371,20 +342,14 @@ public class DogRegister {
             return;
         }
         for (Dog d : tempDogArray) {
-            System.out.print("dog name " + d.getName() + " tail lenght " + d.getTailLength() + " owner name "
-                    + d.getOwner().getName() + "\n");
+            System.out.print(d.getName() + " " + d.getTailLength() + " " + d.getOwner().getName() + "\n");
         }
 
     }
 
     private void increaseAge() {
-        boolean dogExsists = false;
-        for (Owner o : ownerCollection.getAllOwners()) {
-            if (o.ownsAnyDog()) {
-                dogExsists = true;
-            }
-        }
-        if (!dogExsists) {
+
+        if (!anyDogsExists()) {
             System.out.print("error no dogs in system\n");
             // waitForUserInput();
             return;
@@ -419,13 +384,8 @@ public class DogRegister {
     }
 
     private void removeDog() {
-        boolean dogExsists = false;
-        for (Owner o : ownerCollection.getAllOwners()) {
-            if (o.ownsAnyDog() == true) {
-                dogExsists = true;
-            }
-        }
-        if (dogExsists == false) {
+
+        if (!anyDogsExists()) {
             System.out.print("error no dogs exsists");
             // waitForUserInput();
         } else {
@@ -447,6 +407,55 @@ public class DogRegister {
             }
         }
     }
+
+    private Owner getCurrentOwner() {
+        String name = input.readString("enter the name of the dogs current owner");
+        if (!ownerCollection.containsOwner(name)) {
+            System.out.println("error the owner does not exist");
+            return null;
+        }
+
+        Owner owner = ownerCollection.getOwner(name);
+        if (!owner.ownsAnyDog()) {
+            System.out.println("error the owner does not own any dogs");
+            return null;
+        }
+        return owner;
+    }
+
+    private boolean ownsDog(String ownerName, String dogName) {
+        if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
+            System.out.print("error the owner already owns a dog with that name\n");
+            // waitForUserInput();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean anyDogsExists() {
+        for (Owner o : ownerCollection.getAllOwners()) {
+            if (o.ownsAnyDog()) {
+                return true;
+            }
+        }
+        System.out.print("error no dogs in system\n");
+        return false;
+    }
+
+    private void helpText() {
+        System.out.print(
+                "this program is used to register owners and dogs.\nall commands can be used by typing the number, \nthe full command or the initals of the command\nthe program has been guted to clear all requirments for junit\nlook at the top comment in the code to se what to re add\n");
+        // waitForUserInput();
+    }
+
+    private boolean hasEnoughOwners() {
+        if (ownerCollection.getAllOwners().size() < 2) {
+            System.out.print("error need at least 2 owners to change owner\n");
+            // waitForUserInput();
+            return false;
+        }
+        return true;
+    }
     /*
      * private void printTopBar(int num) {
      * for (int i = 0; i < num; i++) {
@@ -463,12 +472,6 @@ public class DogRegister {
      * clearScreen();
      * }
      */
-
-    private void helpText() {
-        System.out.print(
-                "this program is used to register owners and dogs.\nall commands can be used by typing the number, \nthe full command or the initals of the command\nthe program has been guted to clear all requirments for junit\nlook at the top comment in the code to se what to re add\n");
-        // waitForUserInput();
-    }
 
     /*
      * private void clearScreen() {

@@ -2,9 +2,9 @@
 import java.util.Comparator;
 
 public class Owner {
-
+    private static  final int MAX_AMOUNT_OF_DOGS = 7;
     private String name;
-    private Dog[] currentDogs = new Dog[7];
+    private Dog[] currentDogs = new Dog[MAX_AMOUNT_OF_DOGS];
 
     public Owner(String name) {
         if (name == null)

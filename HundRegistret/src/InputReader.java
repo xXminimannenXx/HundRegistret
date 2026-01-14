@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
 public class InputReader {
+    private static boolean exists;
     private Scanner scanner;
-    private static boolean exists = false;
+   
 
     public InputReader() {
        

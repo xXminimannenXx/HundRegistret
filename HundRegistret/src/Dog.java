@@ -120,7 +120,7 @@ public class Dog {
         return age;
     }
 
-    public Integer getWeight() {
+    public int getWeight() {
         return weight;
     }
 

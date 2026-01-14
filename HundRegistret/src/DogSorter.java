@@ -1,13 +1,16 @@
 import java.util.Comparator;
 
 public class DogSorter {
-    public static void sort(SortingAlgorithm algorithm, Comparator<Dog> Comparator, Dog[] dogs) {
+     private DogSorter(){
+
+    }
+    public static void sort(SortingAlgorithm algorithm, Comparator<Dog> comparator, Dog[] dogs) {
         switch (algorithm) {
             case BUBBLE_SORT:
-                bubbleSort(Comparator, dogs);
+                bubbleSort(comparator, dogs);
                 break;
             case SELECTION_SORT:
-                selectionSort(Comparator, dogs);
+                selectionSort(comparator, dogs);
                 break;
             default:
                 break;
@@ -52,7 +55,5 @@ public class DogSorter {
             }
 
     }
-    private DogSorter(){
-
-    }
+   
 }
