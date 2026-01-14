@@ -88,4 +88,7 @@ public class InputReader {
         //scanner.nextLine();
         return tempDouble;
     }
+    public void close(){
+        scanner.close();
+    }
 }
