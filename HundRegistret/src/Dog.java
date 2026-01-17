@@ -93,8 +93,8 @@ public class Dog {
         if (DACHSHUND_ALIASES.contains(breed))
             breed = "Tax";
         name = name.trim();
-        this.name = capName(name);
-        this.breed = capName(breed);
+        this.name = capitalizeName(name);
+        this.breed = capitalizeName(breed);
         this.age = age;
         this.weight = weight;
 
@@ -141,11 +141,11 @@ public class Dog {
         return name + " " + breed + " " + age + " " + weight + " " + getTailLength();
     }
 
-    private String capName(String s) {
-        if (s.isEmpty())
-            return s;
+    private String capitalizeName(String name) {
+        if (name.isEmpty())
+            return name;
         else {
-            return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+            return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         }
     }
 
