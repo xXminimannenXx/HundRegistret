@@ -3,7 +3,6 @@
 //hoppas att de inte är för hemskt att köra de utan dessa funktioner
 //https://github.com/xXminimannenXx/HundRegistret
 
-
 //import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -288,30 +287,29 @@ public class DogRegister {
 
     private void listOwners() {
         // playInteracSound();
-        if (ownerCollection.getAllOwners().size() > 0) {
-            /*
-             * int charToAdd = 0; tyckte inte att de blev så snyggt
-             * /*for (Owner o : ownerCollection.getAllOwners()) {
-             * //charToAdd += o.getName().length();
-             * 
-             * 
-             * }
-             * charToAdd += ownerCollection.getAllOwners().size();
-             * printTopBar(charToAdd);
-             */
-            for (Owner o : ownerCollection.getAllOwners()) {
-                System.out.print(o.getName() + " ");
-                if (o.ownsAnyDog()) {
-                    for (Dog d : o.getDogs()) {
-                        System.out.print(d.getName() + " ");
-                    }
-                }
-            }
-            System.out.println();
-
-        } else {
+        if (ownerCollection.getAllOwners().isEmpty()) {
             System.out.print("error no owners exists\n");
         }
+        /*
+         * int charToAdd = 0; tyckte inte att de blev så snyggt
+         * /*for (Owner o : ownerCollection.getAllOwners()) {
+         * //charToAdd += o.getName().length();
+         * 
+         * 
+         * }
+         * charToAdd += ownerCollection.getAllOwners().size();
+         * printTopBar(charToAdd);
+         */
+        for (Owner o : ownerCollection.getAllOwners()) {
+            System.out.print(o.getName() + " ");
+            if (o.ownsAnyDog()) {
+                for (Dog d : o.getDogs()) {
+                    System.out.print(d.getName() + " ");
+                }
+            }
+        }
+        System.out.println();
+
         // waitForUserInput();
 
     }
@@ -390,23 +388,23 @@ public class DogRegister {
         if (!anyDogsExists()) {
             System.out.print("error no dogs exsists");
             // waitForUserInput();
-        } else {
-            String ownerName = input.readString("enter the name of the owner of the dog");
-            if (ownerCollection.getOwner(ownerName) == null || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
-                System.out.print("error the owner does not exist or the owner dosent have any dogs\n");
-                // waitForUserInput();
+            return;
+        }
+        String ownerName = input.readString("enter the name of the owner of the dog");
+        if (ownerCollection.getOwner(ownerName) == null || !ownerCollection.getOwner(ownerName).ownsAnyDog()) {
+            System.out.print("error the owner does not exist or the owner dosent have any dogs\n");
+            // waitForUserInput();
+            return;
 
-            } else {
-                String dogName = input.readString("enter the name of the dog to be removed");
-                if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
-                    ownerCollection.getOwner(ownerName).removeDog(dogName);
-                    System.out.print("dog removed from owner\n");
-                    // waitForUserInput();
-                } else {
-                    System.out.print("error the owner does not own that dog\n");
-                    // waitForUserInput();
-                }
-            }
+        }
+        String dogName = input.readString("enter the name of the dog to be removed");
+        if (ownerCollection.getOwner(ownerName).ownsDog(dogName)) {
+            ownerCollection.getOwner(ownerName).removeDog(dogName);
+            System.out.print("dog removed from owner\n");
+            // waitForUserInput();
+        } else {
+            System.out.print("error the owner does not own that dog\n");
+            // waitForUserInput();
         }
     }
 

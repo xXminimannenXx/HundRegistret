@@ -3,21 +3,18 @@ import java.util.Scanner;
 public class InputReader {
     private static boolean exists;
     private Scanner scanner;
-   
 
     public InputReader() {
-       
+
         this(new Scanner(System.in)); // anropa den andra konstrukorn
-       
-        
+
     }
 
     public InputReader(Scanner scanner) {
-        if(!exists){
-        this.scanner = scanner;
-        exists = true;
-        }
-        else{
+        if (!exists) {
+            this.scanner = scanner;
+            exists = true;
+        } else {
             throw new IllegalStateException("error can only have 1 InputReader");
         }
     }
@@ -42,13 +39,13 @@ public class InputReader {
                 continue;
             }
         } while (tempInt < 0);
-       
+
         return tempInt;
 
     }
 
     public String readString(String string) {
-        
+
         String tempString = "";
 
         while (tempString == null || tempString.isBlank()) {
@@ -56,7 +53,6 @@ public class InputReader {
             System.out.print(string + " ?>");
             tempString = scanner.nextLine();
             tempString = tempString.trim();
-
 
             if (tempString == null || tempString.isBlank()) {
                 System.out.print("error invalid input\n");
@@ -66,7 +62,8 @@ public class InputReader {
         return tempString;
 
     }
-    public double readDouble(String string){
+
+    public double readDouble(String string) {
         double tempDouble = -1;
         do {
             System.out.print(string + " ?>");
@@ -86,14 +83,17 @@ public class InputReader {
                 continue;
             }
         } while (tempDouble < 0);
-        
+
         return tempDouble;
     }
-    public void close(){
+
+    public void close() {
         scanner.close();
     }
-    public void waitForUserInput(){
-        System.out.print("press ENTER to contine ?>");
-        scanner.nextLine();
-    }
+    /*
+     * public void waitForUserInput(){
+     * System.out.print("press ENTER to contine ?>");
+     * scanner.nextLine();
+     * }
+     */
 }

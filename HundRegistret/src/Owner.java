@@ -2,20 +2,16 @@
 import java.util.Comparator;
 
 public class Owner {
-    private static  final int MAX_AMOUNT_OF_DOGS = 7;
+    private static final int MAX_AMOUNT_OF_DOGS = 7;
     private String name;
     private Dog[] currentDogs = new Dog[MAX_AMOUNT_OF_DOGS];
 
-    public Owner(String name) {
+    public Owner(String name, Dog... dogs) {
+        // gammal kod kvar från tidigare försök av lösningar
         if (name == null)
             throw new IllegalArgumentException("Name cant be null");
         name = name.trim();
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-    }
-
-    public Owner(String name, Dog... dogs) {
-        // gammal kod kvar från tidigare försök av lösningar
-        this(name);
 
         /*
          * if (dogs.length > 7) {
@@ -235,7 +231,7 @@ public class Owner {
                 return true;
             }
         }
-        return false; 
+        return false;
     }
 
     public boolean ownsAnyDog() {
