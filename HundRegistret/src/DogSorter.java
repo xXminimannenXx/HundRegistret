@@ -1,9 +1,10 @@
 import java.util.Comparator;
 
 public class DogSorter {
-     private DogSorter(){
+    private DogSorter() {
 
     }
+
     public static void sort(SortingAlgorithm algorithm, Comparator<Dog> comparator, Dog[] dogs) {
         switch (algorithm) {
             case BUBBLE_SORT:
@@ -34,26 +35,25 @@ public class DogSorter {
 
         } while (changed);
     }
-    private static void selectionSort(Comparator<Dog> comparator, Dog[] dogs){
-      
-       
-        
-            for(int i = 0; i < dogs.length; i++){
-                Dog min = dogs[i];
-                int minIndex = i;
-                for(int j = i; j < dogs.length; j++){
-                    if(comparator.compare(dogs[j], min) < 0){
-                        min = dogs[j];
-                        minIndex = j;
-                       
-                    }
-                 
-                }   
-                   Dog temp = dogs[i];
-                   dogs[i] = min;
-                   dogs[minIndex] = temp;
+
+    private static void selectionSort(Comparator<Dog> comparator, Dog[] dogs) {
+
+        for (int i = 0; i < dogs.length; i++) {
+            Dog min = dogs[i];
+            int minIndex = i;
+            for (int j = i; j < dogs.length; j++) {
+                if (comparator.compare(dogs[j], min) < 0) {
+                    min = dogs[j];
+                    minIndex = j;
+
+                }
+
             }
+            Dog temp = dogs[i];
+            dogs[i] = min;
+            dogs[minIndex] = temp;
+        }
 
     }
-   
+
 }

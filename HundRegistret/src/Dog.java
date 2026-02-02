@@ -231,7 +231,7 @@ public class Dog {
         // Lägg till hos ny ägare om det inte är null
         if (newOwner != null && !newOwner.ownsMaxDogs()) {
             owner = newOwner;
-            newOwner.addDog(this); 
+            newOwner.addDog(this);
         }
 
         return true;
