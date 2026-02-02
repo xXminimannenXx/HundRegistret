@@ -288,6 +288,7 @@ public class DogRegister {
     private void listOwners() {
         // playInteracSound();
         if (ownerCollection.getAllOwners().isEmpty()) {
+            System.out.println();
             System.out.print("error no owners exists\n");
         }
         /*
@@ -308,7 +309,6 @@ public class DogRegister {
                 }
             }
         }
-        System.out.println();
 
         // waitForUserInput();
 
