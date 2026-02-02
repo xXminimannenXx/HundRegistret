@@ -82,7 +82,7 @@ public class DogRegister {
             case "0":
             case "h":
             case "help":
-                helpText();
+                printHelpText();
                 break;
             case "1":
             case "ao":
@@ -442,9 +442,9 @@ public class DogRegister {
         return false;
     }
 
-    private void helpText() {
+    private void printHelpText() {
         System.out.print(
-                "this program is used to register owners and dogs.\nall commands can be used by typing the number, \nthe full command or the initals of the command\nthe program has been guted to clear all requirments for junit\nlook at the top comment in the code to se what to re add\n");
+                "this program is used to register owners and dogs.\nall commands can be used by typing the number, \nthe full command or the initals of the command\nthe program has been changed to clear all requirments for junit\nlook at the top comment in the code to se what to re add\n");
         // waitForUserInput();
     }
 

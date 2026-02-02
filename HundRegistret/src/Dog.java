@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class Dog {
-    private static final double TAX_TAIL_LENGTH = 3.7;
+    private static final double DACHSHUND_TAIL_LENGTH = 3.7;
     private static final List<String> DACHSHUND_ALIASES = List.of(
             "bassê",
             "bassotto",
@@ -129,7 +129,7 @@ public class Dog {
         if (!"Tax".equals(breed))
             return ((double) age * (double) weight) / 10;
         else
-            return TAX_TAIL_LENGTH;
+            return DACHSHUND_TAIL_LENGTH;
 
     }
 
